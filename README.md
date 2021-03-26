@@ -5,11 +5,11 @@ Chess tournament organiser in ASP.net
 In de eerste sprint heb ik analyse documentatie gemaakt wat betrekking heeft tot:
 - Planning & iteraties
 - Requirements
- - Functionele
- - Non-Functionele
+  - Functionele
+  - Non-Functionele
 - Use cases
- - Use case diagram
- - Use case omschrijving
+  - Use case diagram
+  - Use case omschrijving
 - Schermontwerpen
 - Conceptueel model
 
@@ -33,8 +33,8 @@ Analyse
 
 Ontwerp
 - Architectuur
- - Architectuurlagen
- - Architectuur diagram
+  - Architectuurlagen
+  - Architectuur diagram
 - Klassen diagram
 - Database ontwerp
 
