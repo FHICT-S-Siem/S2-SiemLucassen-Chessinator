@@ -50,5 +50,5 @@ In mijn implementatie map staat al een opzet van mijn mappenstructuur, waarin ik
 
 Hiernaast heb ik een klassendiagram en database ontwerp gemaakt door te kijken naar de sensible default en te vragen naar feedback van docenten en teamleden.
 
-_De uitlegvideo: https://www.youtube.com/watch?v=_lwCVE_XgqI door Jason Taylor._
+_De uitlegvideo: https://www.youtube.com/watch?v=_lwCVE_XgqI door Jason Taylor._ 
 
