@@ -38,9 +38,12 @@ Ontwerp
 - Klassen diagram
 - Database ontwerp
 
-In mijn hoofdstuk over architectuurdiagram laat ik zien hoe de eerste flow loopt van mijn Tournament/User. 
-Door me aan de principes te houden van clean architecture, heb ik al een voorsprong naar het maken van een SOLID project.
-Ik heb een uitlegvideo over clean architecture aangeraden gekregen door mijn broer(die in een hoger semester zit), hieruit heb ik een beter idee gehalad over hoe de lagen in mijn project in werken gaan. Hiernaast heb ik mijn klassendiagram en database ontwerp gemaakt door vragen naar feedback van docenten en teamleden.
+Met name zou ik nog graag op het Database model en Architectuur diagram feedback willen.
 
-De video: https://www.youtube.com/watch?v=_lwCVE_XgqI door Jason Taylor.
+Ik heb een uitlegvideo over clean architecture aangeraden gekregen door mijn broer(die in een hoger semester zit), hieruit heb ik een beter idee gehalad over hoe de lagen in mijn project in werken gaan. 
+Door me aan de principes te houden van clean architecture, heb ik al een voorsprong naar het maken van een SOLID project.
+In mijn hoofdstuk over architectuur laat ik zien hoe de eerste flow loopt van mijn Tournament/User. 
+Hiernaast heb ik mijn klassendiagram en database ontwerp gemaakt door te kijken naar de sensible default en te vragen naar feedback van docenten en teamleden.
+
+De uitlegvideo: https://www.youtube.com/watch?v=_lwCVE_XgqI door Jason Taylor.
 
