@@ -1,5 +1,5 @@
 # Chessinator
-Chess tournament organiser in ASP.net CORE
+Chess tournament organiser in ASP.NET CORE
 
 ## Sprint 1
 In de eerste sprint heb ik analyse documentatie gemaakt wat betrekking heeft tot:
