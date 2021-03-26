@@ -22,3 +22,25 @@ zijn te vinden in de volgende git links:
 
 https://github.com/SiemLuc/S2-SiemLucassen-Chessinator
 https://github.com/SiemLuc/S2-SiemLucassen-Algoritmiek
+
+## Sprint 2
+
+In de tweede sprint heb ik mijn ontwerp documentatie gemaakt en mijn analyse document aangepast wat betrekking heeft tot:
+
+Analyse
+- Conceptueel model verbeterd
+- Testplan toegevoegd
+
+Ontwerp
+- Architectuur
+ - Architectuurlagen
+ - Architectuur diagram
+- Klassen diagram
+- Database ontwerp
+
+In mijn hoofdstuk over architectuurdiagram laat ik zien hoe de eerste flow loopt van mijn Tournament/User. 
+Door me aan de principes te houden van clean architecture, heb ik al een voorsprong naar het maken van een SOLID project.
+Ik heb een uitlegvideo over clean architecture aangeraden gekregen door mijn broer(die in een hoger semester zit), hieruit heb ik een beter idee gehalad over hoe de lagen in mijn project in werken gaan. Hiernaast heb ik mijn klassendiagram en database ontwerp gemaakt door vragen naar feedback van docenten en teamleden.
+
+De video: https://www.youtube.com/watch?v=_lwCVE_XgqI door Jason Taylor.
+
