@@ -57,7 +57,7 @@ In mijn hoofdstuk over architectuur laat ik zien hoe de eerste flow loopt van mi
 In mijn implementatie map staat al een opzet van mijn mappenstructuur, waarin ik de flow vanuit mijn architectuurdiagram toepas in mijn project.
 Ik heb een klassendiagram en database ontwerp gemaakt door te kijken naar de sensible default en te vragen naar feedback van docenten en teamleden.
 
-Hiernaast ben ik samen met _Dirk_ en _Owen_ uit mijn groep aan de slag gegaan met de eerste versie van het algoritmiekopdracht Circustrein. 
+Hiernaast ben ik samen met _Dirk_ en _Owen_ uit mijn groep verder aan de slag gegaan met het algoritmiekopdracht Circustrein. 
 Ik moet nog een probleem oplossen waarbij ik eerst moet sorteren op de volgorde van de grootte van de dieren, als dit gelukt is kan ik mijn unit-testen afmaken en het voordragen. 
 
 _De uitlegvideo: https://www.youtube.com/watch?v=_lwCVE_XgqI door Jason Taylor._ 
