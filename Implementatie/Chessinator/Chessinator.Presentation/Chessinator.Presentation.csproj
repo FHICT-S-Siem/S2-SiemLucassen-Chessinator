@@ -21,7 +21,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Chessinator.Infrastructure\Chessinator.Infrastructure.csproj" />
     <ProjectReference Include="..\Chessinator.Persistence\Chessinator.Persistence.csproj" />
-    <ProjectReference Include="..\DataAccessLibrary\DataAccessLibrary.csproj" />
   </ItemGroup>
 
 </Project>
