@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30717.126
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chessinator.Presentation", "Chessinator.Presentation\Chessinator.Presentation.csproj", "{BF5756CB-ACCD-45E0-90F4-2EB093D24BDE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chessinator.Application", "Chessinator.Application\Chessinator.Application.csproj", "{CAE03C8F-A006-4CD0-A1AF-E517DB002870}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chessinator.Domain", "Chessinator.Domain\Chessinator.Domain.csproj", "{85C552E3-B9E1-4CE7-BAEB-83C7C2488DCD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chessinator.Infrastructure", "Chessinator.Infrastructure\Chessinator.Infrastructure.csproj", "{E6EEAB7E-C5C0-412D-9140-EBA267DD5B79}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chessinator.Persistence", "Chessinator.Persistence\Chessinator.Persistence.csproj", "{343FCA62-B37F-4472-89C0-31850C4317E0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccessLibrary", "DataAccessLibrary\DataAccessLibrary.csproj", "{D7B22C48-A59E-4ADE-ADFE-70DE357B2517}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BF5756CB-ACCD-45E0-90F4-2EB093D24BDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF5756CB-ACCD-45E0-90F4-2EB093D24BDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF5756CB-ACCD-45E0-90F4-2EB093D24BDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF5756CB-ACCD-45E0-90F4-2EB093D24BDE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CAE03C8F-A006-4CD0-A1AF-E517DB002870}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CAE03C8F-A006-4CD0-A1AF-E517DB002870}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CAE03C8F-A006-4CD0-A1AF-E517DB002870}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CAE03C8F-A006-4CD0-A1AF-E517DB002870}.Release|Any CPU.Build.0 = Release|Any CPU
+		{85C552E3-B9E1-4CE7-BAEB-83C7C2488DCD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{85C552E3-B9E1-4CE7-BAEB-83C7C2488DCD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{85C552E3-B9E1-4CE7-BAEB-83C7C2488DCD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{85C552E3-B9E1-4CE7-BAEB-83C7C2488DCD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E6EEAB7E-C5C0-412D-9140-EBA267DD5B79}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E6EEAB7E-C5C0-412D-9140-EBA267DD5B79}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E6EEAB7E-C5C0-412D-9140-EBA267DD5B79}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E6EEAB7E-C5C0-412D-9140-EBA267DD5B79}.Release|Any CPU.Build.0 = Release|Any CPU
+		{343FCA62-B37F-4472-89C0-31850C4317E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{343FCA62-B37F-4472-89C0-31850C4317E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{343FCA62-B37F-4472-89C0-31850C4317E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{343FCA62-B37F-4472-89C0-31850C4317E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7B22C48-A59E-4ADE-ADFE-70DE357B2517}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7B22C48-A59E-4ADE-ADFE-70DE357B2517}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7B22C48-A59E-4ADE-ADFE-70DE357B2517}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7B22C48-A59E-4ADE-ADFE-70DE357B2517}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5B253A52-20C4-4DC1-8F68-E72EE6EF2D5C}
+	EndGlobalSection
+EndGlobal
