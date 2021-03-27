@@ -1,0 +1,43 @@
+name: Chessinator
+
+# When pushing on the main branch & there are changes in the Chessinator dir, this pipeline will run.
+
+on:
+  push:
+    branches: 
+      - main
+    paths:
+      - Implementatie/Chessinator/**
+      
+# Since we are only working in the Chessinator, we make sure that the jobs start in the Chessinator dir.
+
+defaults:
+  run:
+    working-directory: Implementatie/Chessinator
+
+# Jobs in the pipeline
+jobs:
+
+  # Builds the code 
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+    # Checks out the code
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    # Sets up the .NET SDK
+    - name: Setup .NET SDK
+      uses: actions/setup-dotnet@v1.7.2
+      with:
+        dotnet-version: '5.0.x'
+    
+    # Installs the dependencies
+    - name: Install dependencies
+      run: dotnet restore
+
+    # Builds the code
+    - name: Build
+      run: dotnet build --no-restore
+  
