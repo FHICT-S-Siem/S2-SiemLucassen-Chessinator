@@ -6,8 +6,14 @@ using System.Threading.Tasks;
 
 namespace Chessinator.Domain.Entities
 {
-    class User
+    public class User
     {
-
+        public Guid Id { get; set; }
+        public string Username { get; set; }
+        public string Email { get; set; }
+        public string Secret { get; set; }
+        public string Extra { get; set; }
+        public string Role { get; set; }
+        public string Userstatus { get; set; }
     }
 }

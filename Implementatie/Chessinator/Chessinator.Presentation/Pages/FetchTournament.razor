@@ -1,0 +1,94 @@
+﻿@page "/tournamentList"
+@inject ITournamentService TournamentService
+
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+<style>
+    .sort-th {
+        cursor: pointer;
+    }
+
+    .fa {
+        float: right;
+    }
+
+    .btn-custom {
+        color: black;
+        float: left;
+        padding: 8px 16px;
+        text-decoration: none;
+        transition: background-color .3s;
+        border: 2px solid #000;
+        margin: 0px 5px 0px 5px;
+    }
+</style>
+
+<div>
+    <a class="btn btn-primary" href='/addTournament'>Add</a>
+</div>
+<br />
+
+@if (tournaments == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th class="sort-th">
+                    ID
+                    <span class="fa"></span>
+                </th>
+                <th class="sort-th">
+                    Title
+                </th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (tournaments.Count == 0)
+            {
+                <tr>
+                    <td colspan="3">
+                        No Records to display
+                    </td>
+                </tr>
+            }
+            else
+            {
+                foreach (TournamentDto trnmnt in tournaments)
+                {
+                    <tr>
+                        <td>@trnmnt.Id</td>
+                        <td>@trnmnt.TournamentName</td>
+                        <td>
+                            <a class="btn btn-primary" href='/editTournament/@trnmnt.Id'>Edit</a>  |
+                            <a class="btn btn-danger" @onclick="() => DeleteTournamentAsync(trnmnt.Id)">Delete</a>
+                        </td>
+                    </tr>
+                }
+            }
+
+        </tbody>
+    </table>
+}
+
+
+@code {
+    List<TournamentDto> tournaments;
+    TournamentDto tournament = new TournamentDto();
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        tournaments = await TournamentService.GetTournamentsAsync();
+    }
+
+    protected async Task DeleteTournamentAsync(Guid id)
+    {
+        await TournamentService.DeleteTournamentAsync(id);
+        tournaments = await TournamentService.GetTournamentsAsync();
+    }
+}

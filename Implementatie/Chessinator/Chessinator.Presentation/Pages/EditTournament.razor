@@ -1,0 +1,43 @@
+﻿@page "/editTournament/{Id}"
+@inject ITournamentService TournamentService
+@inject NavigationManager NavigationManager
+
+    <div class="row">
+        <div class="col-md-4">
+            <form>
+                <div class="form-group">
+                    <label for="Name" class="control-label">Name</label>
+                    <input for="Name" class="form-control" @bind-value="@tournament.TournamentName" />
+                    <input type="hidden"  @bind-value="@tournament.Id" />
+                </div>
+                <div class="form-group">
+                    <button type="button" class="btn btn-primary" @onclick="UpdateTournament">Save</button>
+                    <button type="button" class="btn btn-danger" @onclick="Cancel">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+@code  {
+
+    [Parameter]
+    public Guid Id { get; set; }
+
+    TournamentDto tournament = new TournamentDto();
+
+    protected override async Task OnInitializedAsync()
+    {
+        tournament = await TournamentService.GetTournamentByIdAsync(Id);
+    }
+
+    protected async Task UpdateTournament()
+    {
+        await TournamentService.UpdateAsync(tournament);
+        NavigationManager.NavigateTo("/tournamentList");
+    }
+
+    void Cancel()
+    {
+        NavigationManager.NavigateTo("/tournamentList");
+    }
+}

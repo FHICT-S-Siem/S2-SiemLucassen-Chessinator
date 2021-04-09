@@ -1,13 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Chessinator.Domain.Entities
 {
-    class Tournament
+    public class Tournament
     {
-
+        public Guid Id { get; set; }
+        public string TournamentName { get; set; }
+        public string TournamentType { get; set; }
+        public string TournamentSeeding { get; set; }
+        public string TournamentTime { get; set; }
+        public DateTime TournamentDatetime { get; set; }
     }
 }
