@@ -12,6 +12,6 @@ namespace Chessinator.Application.Interfaces
         /// Generates a byte array to be used as salt.
         /// </summary>
         /// <returns>Returns a byte array to be used as salt.</returns>
-        byte[] GenerateSalt();
+        public byte[] GenerateSalt();
     }
 }

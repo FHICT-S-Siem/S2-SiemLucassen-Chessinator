@@ -1,3 +1,4 @@
+using Chessinator.Application.Cryptography;
 using Chessinator.Application.Interfaces;
 using Chessinator.Application.Services;
 using Chessinator.Persistence.Contexts;
@@ -21,13 +22,17 @@ namespace Chessinator.Presentation
         public IConfiguration Configuration { get; }
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAutoMapper(typeof(Startup));
             services.AddRazorPages();
             services.AddServerSideBlazor();
-
+            services.AddOptions();
             // Adds the database connection to the service collection for dependency injection.
             services.AddDbContext<ChessinatorDbContext>(options =>
                           options.UseSqlServer(
                               Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddScoped<IPasswordHasher, PasswordHasher>();
+            services.AddScoped<ISaltGenerator, RandomSaltGenerator>();
 
             // Adds the repositories with their interfaces.
             services.AddScoped<ITournamentRepository, TournamentRepository>();

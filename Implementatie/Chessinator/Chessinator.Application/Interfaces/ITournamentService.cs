@@ -12,7 +12,7 @@ namespace Chessinator.Application.Interfaces
         /// </summary>
         /// <param name="name">The tournament name.</param>
         /// <returns>Returns the created tournament.</returns>
-        public Task<TournamentDto> CreateTournamentAsync(string tournamentName);
+        public Task<TournamentDto> CreateTournamentAsync(TournamentDto tournament);
 
         /// <summary>
         /// Gets all tournaments.

@@ -38,11 +38,24 @@ else
         <thead>
             <tr>
                 <th class="sort-th">
-                    ID
+                    Name
                     <span class="fa"></span>
                 </th>
                 <th class="sort-th">
-                    Title
+                    Type
+                    <span class="fa"></span>
+                </th>
+                <th class="sort-th">
+                    Seeding
+                    <span class="fa"></span>
+                </th>
+                <th class="sort-th">
+                    Time
+                    <span class="fa"></span>
+                </th>
+                <th class="sort-th">
+                    Date
+                    <span class="fa"></span>
                 </th>
                 <th>Action</th>
             </tr>
@@ -58,16 +71,20 @@ else
             }
             else
             {
-                foreach (TournamentDto trnmnt in tournaments)
+                foreach (TournamentDto t in tournaments)
                 {
-                    <tr>
-                        <td>@trnmnt.Id</td>
-                        <td>@trnmnt.TournamentName</td>
-                        <td>
-                            <a class="btn btn-primary" href='/editTournament/@trnmnt.Id'>Edit</a>  |
-                            <a class="btn btn-danger" @onclick="() => DeleteTournamentAsync(trnmnt.Id)">Delete</a>
-                        </td>
-                    </tr>
+        <tr>
+            <td>@t.Name</td>
+            <td>@t.Type</td>
+            <td>@t.Seeding</td>
+            <td>@t.Time</td>
+            <td>@t.Datetime</td>
+
+            <td>
+                <a class="btn btn-primary" href='/editTournament/@t.Id'>Edit</a>  |
+                <a class="btn btn-danger" @onclick="() => DeleteTournamentAsync(t.Id)">Delete</a>
+            </td>
+        </tr>
                 }
             }
 
@@ -78,7 +95,6 @@ else
 
 @code {
     List<TournamentDto> tournaments;
-    TournamentDto tournament = new TournamentDto();
 
 
     protected override async Task OnInitializedAsync()

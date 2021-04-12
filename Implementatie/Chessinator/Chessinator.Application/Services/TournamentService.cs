@@ -5,41 +5,37 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 
 namespace Chessinator.Application.Services
 {
     public class TournamentService : ITournamentService
     {
         private readonly ITournamentRepository _tournamentRepository;
+        private readonly IMapper _mapper;
 
         public TournamentService(
-            ITournamentRepository tournamentRepository)
+            ITournamentRepository tournamentRepository,
+            IMapper mapper)
         {
             _tournamentRepository = tournamentRepository;
+            _mapper = mapper;
         }
 
-        public async Task<TournamentDto> CreateTournamentAsync(string tournamentName)
+        public async Task<TournamentDto> CreateTournamentAsync(TournamentDto tournamentDto)
         {
-            Tournament tournament = new Tournament()
-            {
-                // TODO: Alles meegeven?
-                TournamentName = tournamentName
-            };
+            Tournament tournament = _mapper.Map<Tournament>(tournamentDto);
             Tournament createdTournament = await _tournamentRepository.CreateTournamentAsync(tournament);
 
             if (createdTournament == null)
                 throw new Exception("Failed to create tournament");
 
-            TournamentDto tournamentDto = new TournamentDto
-            {
-                TournamentName = createdTournament.TournamentName
-            };
-
-            return tournamentDto;
+            return _mapper.Map<TournamentDto>(createdTournament);
         }
 
         public async Task<List<TournamentDto>> GetTournamentsAsync()
         {
+
             // tournaments from repository
             List<Tournament> tournaments = await _tournamentRepository.GetTournamentsAsync();
 
@@ -54,17 +50,21 @@ namespace Chessinator.Application.Services
                 return new TournamentDto()
                 {
                     Id = tournament.Id,
-                    TournamentName = tournament.TournamentName
+                    Name = tournament.Name,
+                    Type = tournament.Type,
+                    Seeding = tournament.Seeding,
+                    Time = tournament.Time,
+                    Datetime = tournament.Datetime
                 };
             }
         }
 
-        public async Task<TournamentDto> GetTournamentByNameAsync(string tournamentName)
+        public async Task<TournamentDto> GetTournamentByNameAsync(string Name)
         {
-            Tournament tournament = await _tournamentRepository.GetTournamentByNameAsync(tournamentName);
+            Tournament tournament = await _tournamentRepository.GetTournamentByNameAsync(Name);
             TournamentDto tournamentDto = new TournamentDto()
             {
-                TournamentName = tournament.TournamentName
+                Name = tournament.Name
             };
             return tournamentDto;
         }
@@ -84,10 +84,16 @@ namespace Chessinator.Application.Services
             return await _tournamentRepository.DeleteTournamentAsync(tournamentId);
         }
 
-        public async Task<TournamentDto> UpdateTournamentAsync(TournamentDto tournament)
+        public async Task<TournamentDto> UpdateTournamentAsync(TournamentDto tournamentDto)
         {
-            // TODO: Update tournament.
-            throw new NotImplementedException();
+            Tournament tournament =_mapper.Map<Tournament>(tournamentDto);
+
+            Tournament updatedTournament = await _tournamentRepository.UpdateTournamentAsync(tournament);
+
+            if (updatedTournament == null)
+                throw new Exception("Failed to update tournament");
+
+            return _mapper.Map<TournamentDto>(updatedTournament);
         }
     }
 }

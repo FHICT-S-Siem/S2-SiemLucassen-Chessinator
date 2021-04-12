@@ -54,10 +54,21 @@ namespace Chessinator.Persistence.Repositories
             return await _chessinatorDbContext.Tournaments.ToListAsync();
         }
 
-        public Task<Tournament> UpdateTournamentAsync(Tournament tournament)
+        public async Task<Tournament> UpdateTournamentAsync(Tournament tournament)
         {
-            // TODO: Update tournament Async.
-            throw new NotImplementedException();
+            Tournament trackedTournament =  await _chessinatorDbContext.Tournaments.FindAsync(tournament.Id);
+
+            if (trackedTournament != null)
+            {
+                trackedTournament.Name = tournament.Name;
+                trackedTournament.Seeding = tournament.Seeding;
+                trackedTournament.Time = tournament.Time;
+                trackedTournament.Type = tournament.Type;
+
+                await _chessinatorDbContext.SaveChangesAsync();
+            }
+
+            return trackedTournament;
         }
     }
 }
