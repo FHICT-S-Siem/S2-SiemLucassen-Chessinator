@@ -44,13 +44,13 @@ namespace CircusTrein
             string size = sizeItem.Content.ToString();
             ComboBoxItem typeItem = (ComboBoxItem)cbType.SelectedItem;
             string type = typeItem.Content.ToString();
-
+            Enum.TryParse(type, out AnimalType animalType);
+            Enum.TryParse(size, out AnimalSize animalSize);
+            Animal a = new Animal(animalSize, animalType);
             for (int count = 0; count < amount; count++)
             {
-                train.AddAnimalToTrain(size, type);
+                train.AddAnimalToTrain(a);
             }
-            Console.WriteLine("Test");
-            
         }
     }
 }

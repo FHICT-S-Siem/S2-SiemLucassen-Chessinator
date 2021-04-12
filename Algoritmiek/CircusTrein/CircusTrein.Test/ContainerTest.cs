@@ -8,7 +8,7 @@ namespace CircusTrein.Test
         [TestMethod]
         public void TestAddAnimalsToContainer()
         {
-            //Assert
+            //Arrange
             Animal a = new Animal(AnimalSize.Large, AnimalType.Herbivore);
             Animal b = new Animal(AnimalSize.Large, AnimalType.Herbivore);
             Animal c = new Animal(AnimalSize.Small, AnimalType.Herbivore);
@@ -18,6 +18,7 @@ namespace CircusTrein.Test
 
 
             //Assert
+
             // True
             Assert.AreEqual(container.TryAddAnimal(b), true);
             

@@ -1,4 +1,6 @@
-﻿namespace CircusTrein
+﻿using System;
+
+namespace CircusTrein
 {
     public enum AnimalType
     {

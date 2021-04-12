@@ -1,0 +1,23 @@
+Max 10 punten - klein 1, middel 3, groot 5
+
+Carnivore mag maar 1 keer in een container voorkomen
+Carnivore eet dezelfde grootte of kleinere groote op
+Elke wagon moet optimaal benut zijn.
+
+voorbeeld:
+
+wagon 1 - Container bevat 10 punten
+
+Herbivore, middel - 3
+Herbivore, small - 1
+Herbivore, small - 1
+Herbivore, large - 5
+
+wanneer er nu nog een animal word toegevoegd moet er een nieuwe container
+worden aangemaakt omdat het maxcapaciteit is bereikt.
+
+
+
+
+Overig:
+
