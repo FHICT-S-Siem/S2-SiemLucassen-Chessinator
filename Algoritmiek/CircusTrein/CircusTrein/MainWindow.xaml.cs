@@ -38,7 +38,7 @@ namespace CircusTrein
 
         private void Add_Click(object sender, RoutedEventArgs e)
         {
-            int amount = int.Parse(tbAmount.Text.ToString());
+            int amount = int.Parse(tbAmount.Text);
 
             ComboBoxItem sizeItem = (ComboBoxItem)cbSize.SelectedItem;
             string size = sizeItem.Content.ToString();

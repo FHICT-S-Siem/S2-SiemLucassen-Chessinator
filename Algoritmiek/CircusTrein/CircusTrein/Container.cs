@@ -18,29 +18,29 @@ namespace CircusTrein
 
         public bool TryAddAnimal(Animal animal)
         {
-            // is groter dan 10
+            // Checks if animal is equal or greater than 10 
             if (_animals.Sum(anml => (int)anml.AnimalSize) + (int)animal.AnimalSize > MaxCapacity)
             {
                 return false;
             }
 
-            // eet het dier vlees
+            // Checks if the animal is carnivore
             if (animal.AnimalType.Equals(AnimalType.Carnivore))
             {
-                // kijkt of er een vlees in zit
+                // Checks if there is already a carnivore in the container
                 if (_animals.Exists(anml => anml.AnimalType.Equals(AnimalType.Carnivore)))
                 {
                     return false;
                 }
 
-                // kijkt of het dier kleiner of gelijk is aan het dier
+                // Checks if the animal is equal or smaller than any animal(herbivore) inside.
                 if (_animals.Any(anml => (int)anml.AnimalSize <= (int)animal.AnimalSize))
                 {
                     return false;
                 }
             }
             
-            // kijkt of er een vlees in zit en kijkt of het groter of gelijk is dan het geselecteerde dier.
+            // Check if there is a carnivore in the container and checks if its greater than or equal to the size of the selected animal.
             else if (_animals.Exists(anml => anml.AnimalType.Equals(AnimalType.Carnivore) && (int)anml.AnimalSize >= (int)animal.AnimalSize))
             {
                 return false;

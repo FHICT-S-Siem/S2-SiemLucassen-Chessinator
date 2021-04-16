@@ -18,7 +18,7 @@ namespace CircusTrein.Test
 
 
             //Act
-            // First container is full, makes new container because the first container has reached maxcapacity
+            // First container is full, makes new container because the first container has reached maximum-capacity
             t.AddAnimalToTrain(new Animal(AnimalSize.Medium, AnimalType.Herbivore));
 
             //Assert

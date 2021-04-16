@@ -87,7 +87,6 @@ namespace Chessinator.Application.Services
         public async Task<TournamentDto> UpdateTournamentAsync(TournamentDto tournamentDto)
         {
             Tournament tournament =_mapper.Map<Tournament>(tournamentDto);
-
             Tournament updatedTournament = await _tournamentRepository.UpdateTournamentAsync(tournament);
 
             if (updatedTournament == null)

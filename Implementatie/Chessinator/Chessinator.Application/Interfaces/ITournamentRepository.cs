@@ -43,7 +43,6 @@ namespace Chessinator.Application.Interfaces
         /// <returns>Returns a tournament by id</returns>
         public Task<Tournament> GetTournamentByIdAsync(Guid tournamentId);
 
-
         /// <summary>
         /// Updates the tournament.
         /// </summary>

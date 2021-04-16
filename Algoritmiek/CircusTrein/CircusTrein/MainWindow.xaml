@@ -32,8 +32,9 @@
                     <ComboBoxItem Content="Herbivore"></ComboBoxItem>
                     <ComboBoxItem Content="Carnivore"></ComboBoxItem>
                 </ComboBox>
+                <Button x:Name="Add" Content="Add" FontSize="18" Width="75" HorizontalAlignment="Right" Click="Add_Click"></Button>
+
             </StackPanel>
-            <Button x:Name="Add" Content="Add" FontSize="18" Width="100" HorizontalAlignment="Right" Click="Add_Click"></Button>
         </StackPanel>
             
         <StackPanel Grid.Column="1">
