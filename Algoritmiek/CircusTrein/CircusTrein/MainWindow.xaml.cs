@@ -13,7 +13,7 @@ namespace CircusTrein
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-        Train train = new Train();
+        Train _train = new Train();
 
         private List<Train> container;
 
@@ -49,7 +49,7 @@ namespace CircusTrein
             Animal a = new Animal(animalSize, animalType);
             for (int count = 0; count < amount; count++)
             {
-                train.AddAnimalToTrain(a);
+                _train.AddAnimalToTrain(a);
             }
         }
     }

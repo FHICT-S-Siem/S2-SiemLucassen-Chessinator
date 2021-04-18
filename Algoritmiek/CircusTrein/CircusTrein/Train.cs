@@ -5,20 +5,25 @@ namespace CircusTrein
 {
     public class Train
     {
-        public IList<Container> Containers { get; }
+
+        // Readonly so the object can only be set once  in constructor.
+        private readonly List<Container> _containers;
+        public IReadOnlyCollection<Container> Containers => _containers.AsReadOnly();
 
         public Train()
         {
-            Containers = new List<Container>();
+            _containers = new List<Container>();
         }
 
         public void AddAnimalToTrain(Animal animal)
         {
+            // If animal does not fit in any existing container, a new container is created.
             if (!TryToAddAnimalToAnyContainer(animal))
             {
-                Containers.Add(new Container(animal));
+                _containers.Add(new Container(animal));
             }
         }
-        private bool TryToAddAnimalToAnyContainer(Animal animal) => Containers.Any(container => container.TryAddAnimal(animal));
+        // Tries to add an animal to any container, when true returns true.
+        private bool TryToAddAnimalToAnyContainer(Animal animal) => _containers.Any(container => container.TryAddAnimal(animal));
     }
 }

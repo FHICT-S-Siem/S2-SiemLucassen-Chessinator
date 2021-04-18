@@ -5,10 +5,11 @@ namespace CircusTrein
 {
     public class Container
     {
+        // Maxcapacity of the container is 10.
         public int MaxCapacity = 10;
 
+        // Readonly so the object can only be set once  in constructor.
         private readonly List<Animal> _animals;
-
         public IReadOnlyCollection<Animal> Animals => _animals.AsReadOnly();
 
         public Container(Animal animal)

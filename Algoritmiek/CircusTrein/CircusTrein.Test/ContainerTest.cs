@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace CircusTrein.Test
@@ -5,6 +7,23 @@ namespace CircusTrein.Test
     [TestClass]
     public class ContainerTest
     {
+        [TestMethod]
+        public void TryAddAnimal_AddsAnimalToContainer_ShouldHaveAnimalInList()
+        {
+            //Arrange
+
+            Animal a = new Animal(AnimalSize.Large, AnimalType.Herbivore);
+            Animal b = new Animal(AnimalSize.Medium, AnimalType.Carnivore);
+
+            Container container = new Container(a);
+            //Act
+            container.TryAddAnimal(b);
+
+            //Assert
+            Assert.IsTrue(container.Animals.Contains(a));
+            Assert.IsTrue(container.Animals.Contains(b));
+        }
+
         [TestMethod]
         public void AddsAnimalToContainer_ChecksOverMaximumCapacity_False()
         {
