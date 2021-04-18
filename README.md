@@ -64,7 +64,7 @@ _De uitlegvideo: https://www.youtube.com/watch?v=_lwCVE_XgqI door Jason Taylor._
 
 ## Sprint 3
 
-In de derde sprint heb ik vooral aan mijn implementatie gewerkt en mijn ontwerpdocument aangepast wat betrekking heeft tot:
+In de derde sprint heb ik vooral aan mijn implementatie, alogritmiek opdracht gewerkt en mijn ontwerpdocument aangepast wat betrekking heeft tot:
 
 Ontwerp
 - Architectuur
@@ -81,10 +81,10 @@ Algoritmiek
 - Circustrein applicatie afgemaakt
 - Circustrein unittests toegevoegd
 
-Graag zou ik feedback willen op mijn algoritmiekopdracht en de bijhorende unittests, aangezien het een te druk schema was om te laten nakijken maar ook hiervoor kunnen we een meeting plannen.
+Graag zou ik feedback willen op mijn algoritmiekopdracht en de bijhorende unittests, aangezien het een te druk schema was om het te laten nakijken maar ook hiervoor kunnen we een meeting plannen.
 
 In het feedback gesprek kwam terug dat ik nog wat foutjes had in mijn database ontwerp waar ik een paar kraaienpoten verkeerd om had of entiteiten nog in meervoud had staan, dit is nu verwerkt in mijn ontwerp. Ook heb ik deze sprint in plaats van twee flows, maar een flow gebruikt in het architectuur diagram omdat het redundant bleek te zijn. 
 
-Voor de implementatie ben ik begonnen met het schrijven van de backend voor de login met cryptografie, maar heb het nog niet op de UI geïmplementeerd omdat ik destijds nog niet voldoende afwist van de blazor UI. Hierna heb ik een template gevonden genaamd Blazor-CRUD, waarmee ik heel mijn tournament backend gemakkelijk op de UI kon presenteren. Ik heb voor het omzetten van entiteiten naar dto's Automapper gebruikt wat ik ook kreeg aangeraden in een van de lessen van Jason Taylor. Ik heb Entity Framework Code first gebruikt omdat ik zodanig mijn Properties met de juiste data constraints via een migration naar de database te sturen. Ook is EF heel simpel te gebruiken voor het maken van CRUD commands.
+Voor de implementatie ben ik begonnen met het schrijven van de backend voor de login met cryptografie, maar heb het nog niet op de UI geïmplementeerd omdat ik destijds nog niet voldoende afwist van de blazor UI. Hierna heb ik een template gevonden genaamd Blazor-CRUD, waarmee ik heel mijn tournament backend gemakkelijk op de UI kon presenteren. Ik heb voor het omzetten van entiteiten naar dto's Automapper gebruikt wat ik ook kreeg aangeraden in een van de lessen van Jason Taylor. Ik heb Entity Framework Code first gebruikt omdat ik zodanig mijn Properties met de juiste data constraints via een migration naar de database kan sturen. Ook is EF heel simpel te gebruiken voor het maken van CRUD commands.
 
 Ik heb in het algoritmiek opdracht circustrein mijn laatste functie afgemaakt en unittesten hierop uitgevoerd. Ik ben nog niet zeker over de lange namen die ik voor de testen gebruikt heb.
