@@ -54,7 +54,7 @@ namespace Chessinator.Application.Services
                     Type = tournament.Type,
                     Seeding = tournament.Seeding,
                     Time = tournament.Time,
-                    Datetime = tournament.Datetime
+                    DateTime = tournament.DateTime
                 };
             }
         }

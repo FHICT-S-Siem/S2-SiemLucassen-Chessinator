@@ -14,7 +14,7 @@ namespace Chessinator.Persistence.Configurations
             builder.Property(p => p.Secret).IsRequired();
             builder.Property(p => p.Extra).IsRequired();
             builder.Property(p => p.Role).IsRequired();
-            builder.Property(p => p.Userstatus).IsRequired();
+            builder.Property(p => p.UserStatus).IsRequired();
         }
     }
 }

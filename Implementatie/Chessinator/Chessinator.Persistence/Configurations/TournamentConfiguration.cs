@@ -13,7 +13,7 @@ namespace Chessinator.Persistence.Configurations
             builder.Property(p => p.Seeding).IsRequired();
             builder.Property(p => p.Time).IsRequired();
             builder.Property(p => p.Type).IsRequired();
-            builder.Property(p => p.Datetime).IsRequired().HasDefaultValueSql("getdate()");
+            builder.Property(p => p.DateTime).IsRequired().HasDefaultValueSql("getdate()");
         }
     }
 }

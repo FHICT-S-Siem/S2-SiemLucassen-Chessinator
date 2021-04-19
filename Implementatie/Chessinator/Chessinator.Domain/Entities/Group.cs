@@ -6,8 +6,11 @@ using System.Threading.Tasks;
 
 namespace Chessinator.Domain.Entities
 {
-    class Group
+    public class Group
     {
+        public string Participant { get; set; }
+        public int Groups { get; set; }
 
+        public int GroupSize { get; set; }
     }
 }

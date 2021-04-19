@@ -9,6 +9,6 @@ namespace Chessinator.Domain.Entities
         public string Type { get; set; }
         public string Seeding { get; set; }
         public string Time { get; set; }
-        public DateTime Datetime { get; set; }
+        public DateTime DateTime { get; set; }
     }
 }
