@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chessinator.Infrastructure"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chessinator.Persistence", "Chessinator.Persistence\Chessinator.Persistence.csproj", "{343FCA62-B37F-4472-89C0-31850C4317E0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chessinator.Presentation", "Chessinator.Presentation\Chessinator.Presentation.csproj", "{0B69FBD2-9A24-4D3C-BE81-615229B067F4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chessinator.Presentation", "Chessinator.Presentation\Chessinator.Presentation.csproj", "{0B69FBD2-9A24-4D3C-BE81-615229B067F4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
