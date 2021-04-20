@@ -1,0 +1,68 @@
+﻿@page "/signup"
+@using System.Security.Claims
+@using Chessinator.Application.Dtos.Responses
+@using Chessinator.Presentation.Authorization
+
+
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject NavigationManager NavigationManager
+@inject IUserService userService
+@inject Blazored.SessionStorage.ISessionStorageService sessionStorage
+
+<EditForm Model="@user" OnValidSubmit="@RegisterAsync">
+    <div>
+        <br /><br /><br /><br /><br />
+    </div>
+    <div>
+        <h3 style="font-weight:bold; color:purple">Sign up!</h3>
+    </div>
+    <div>
+        <br />
+    </div>
+    <div class="col-12 row">
+        <input class="form-control col-12" @bind="user.Username" placeholder="username" />
+    </div>
+    <br />
+    <div class="col-12 row">
+        <input type="password" class="form-control col-12" @bind="user.Password" placeholder="password" />
+    </div>
+    <br />
+    <div class="col-12 row">
+        <input class="form-control col-12" @bind="user.Email" placeholder="email" />
+    </div>
+    <br />
+    <div class="col-12 row">
+        <input class="form-control col-12" @bind="user.Country" placeholder="country" />
+    </div>
+    <br />
+    <div class="col-12 row">
+        <span class="col-12"></span>
+        <input type="submit" class="form-control col-6 btn btn-primary" value="Sign up" />
+        <button type="button" class="btn btn-primary" @onclick="BackToLogin">Cancel</button>
+    </div>
+    <br />
+    <div class="col-12 row" style="text-align:left; font-weight:bold">
+    </div>
+</EditForm>
+
+@code {
+
+
+    RegisterDto user = new RegisterDto();
+
+    protected async Task RegisterAsync()
+    {
+        user.Id = Guid.NewGuid();
+        await userService.RegisterAsync(user);
+        NavigationManager.NavigateTo("/");
+    }
+
+    void BackToLogin()
+    {
+        NavigationManager.NavigateTo("/");
+    }
+
+
+}
+
+

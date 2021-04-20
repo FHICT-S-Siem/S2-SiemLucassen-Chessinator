@@ -11,10 +11,11 @@ namespace Chessinator.Persistence.Configurations
             builder.HasKey(p => p.Id);
             builder.Property(p => p.Username).HasMaxLength(30).IsRequired();
             builder.Property(p => p.Email).HasMaxLength(64).IsRequired();
+            builder.Property(p => p.Country).IsRequired();
             builder.Property(p => p.Secret).IsRequired();
             builder.Property(p => p.Extra).IsRequired();
-            builder.Property(p => p.Role).IsRequired();
-            builder.Property(p => p.UserStatus).IsRequired();
+            builder.Property(p => p.Role).HasDefaultValue("User").IsRequired();
+            builder.Property(p => p.UserStatus).HasDefaultValue("Active").IsRequired();
         }
     }
 }

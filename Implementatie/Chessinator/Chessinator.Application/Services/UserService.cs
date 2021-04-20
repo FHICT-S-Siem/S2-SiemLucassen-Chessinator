@@ -67,7 +67,7 @@ namespace Chessinator.Application.Services
                 {
                     Username = registerDto.Username,
                     Email = registerDto.Email,
-                    Secret = _hasher.Hash(registerDto.Secret, salt),
+                    Secret = _hasher.Hash(registerDto.Password, salt),
                     Extra = Convert.ToBase64String(salt),
                     Country = registerDto.Country
                 };
