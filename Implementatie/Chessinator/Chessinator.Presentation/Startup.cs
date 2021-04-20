@@ -1,9 +1,12 @@
+using Blazored.SessionStorage;
 using Chessinator.Application.Cryptography;
 using Chessinator.Application.Interfaces;
 using Chessinator.Application.Services;
 using Chessinator.Persistence.Contexts;
 using Chessinator.Persistence.Repositories;
+using Chessinator.Presentation.Authorization;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -26,6 +29,10 @@ namespace Chessinator.Presentation
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddOptions();
+
+            //Adds Session storage
+            services.AddBlazoredSessionStorage();
+
             // Adds the database connection to the service collection for dependency injection.
             services.AddDbContext<ChessinatorDbContext>(options =>
                           options.UseSqlServer(
@@ -41,6 +48,9 @@ namespace Chessinator.Presentation
             // Adds the services with their interfaces.
             services.AddScoped<ITournamentService, TournamentService>();
             services.AddScoped<IUserService, UserService>();
+
+            // Adds AuthenticationStateProvider with the CustomAuthenticationStateProvider
+            services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -61,6 +71,10 @@ namespace Chessinator.Presentation
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            // Authentication
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
