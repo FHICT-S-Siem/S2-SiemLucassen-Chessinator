@@ -1,6 +1,7 @@
 ﻿@page "/addTournament"
 @inject ITournamentService TournamentService
 @inject NavigationManager NavigationManager
+@inject Blazored.SessionStorage.ISessionStorageService sessionStorage
 <h1>
     Add Article
 </h1>
@@ -33,6 +34,7 @@
     protected async Task CreateTournamentAsync()
     {
         tournament.Id = Guid.NewGuid();
+        tournament.UserId = await sessionStorage.GetItemAsync<Guid>("userguid");
         await TournamentService.CreateTournamentAsync(tournament);
         NavigationManager.NavigateTo("/tournamentList");
     }

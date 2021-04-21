@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Http.Headers;
 
 namespace Chessinator.Domain.Entities
 {
@@ -14,7 +15,8 @@ namespace Chessinator.Domain.Entities
         public string Time { get; set; }
         public DateTime DateTime { get; set; }
 
-        public ICollection<Match> Matches { get; set; }
-        public ICollection<Group> Groups { get; set; }
+
+        public ICollection<Match> Matches { get; set; } = new List<Match>();
+        public ICollection<Group> Groups { get; set; } = new List<Group>();
     }
 }

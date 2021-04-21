@@ -13,7 +13,7 @@ namespace Chessinator.Domain.Entities
         public int Points { get; set; }
 
         // EF Core 5.0 recognizes this as a many-to-many relationship by convention, and automatically creates a PlayerMatch join table in the database.
-        public ICollection<Match> Matches { get; set; }
-        public ICollection<Group> Groups { get; set; }
+        public ICollection<Match> Matches { get; set; } = new List<Match>();
+        public ICollection<Group> Groups { get; set; } = new List<Group>();
     }
 }

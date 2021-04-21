@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Chessinator.Domain.Entities;
 
 namespace Chessinator.Application.Interfaces
@@ -11,6 +12,13 @@ namespace Chessinator.Application.Interfaces
         /// <param name="username"></param>
         /// <returns></returns>
         public Task<User> GetUserByUsernameAsync(string username);
+
+        /// <summary>
+        /// Get User by user id.
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public Task<User> GetUserByIdAsync(Guid userId);
 
         /// <summary>
         /// Create user in database.

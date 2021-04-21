@@ -73,9 +73,9 @@
         if (response.Success)
         {
             ((CustomAuthenticationStateProvider)AuthenticationStateProvider).MarkUserAsAuthenticated(response.Data.Username);
-            NavigationManager.NavigateTo("/index");
-
             await sessionStorage.SetItemAsync("username", response.Data.Username);
+            await sessionStorage.SetItemAsync("userguid", response.Data.Id);
+            NavigationManager.NavigateTo("/index");
         }
         else
         {

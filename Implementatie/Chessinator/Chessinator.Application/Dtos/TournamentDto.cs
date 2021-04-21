@@ -5,6 +5,7 @@ namespace Chessinator.Application.Dtos
     public class TournamentDto
     {
         public Guid Id { get; set; }
+        public Guid UserId { get; set; }
         public string Name { get; set; }
         public string Type { get; set; }
         public string Seeding { get; set; }

@@ -16,6 +16,6 @@ namespace Chessinator.Domain.Entities
         public string Extra { get; set; }
         public string Role { get; set; }
         public string UserStatus { get; set; }
-        public ICollection<Tournament> Tournaments { get; set; }
+        public ICollection<Tournament> Tournaments { get; set; } = new List<Tournament>();
     }
 }

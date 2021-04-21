@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Chessinator.Application.Interfaces;
 using Chessinator.Domain.Entities;
@@ -49,17 +50,10 @@ namespace Chessinator.Persistence.Repositories
             return await _chessinatorDbContext.Tournaments.FindAsync(tournamentName);
         }
 
-        public async Task<List<Tournament>> GetTournamentsAsync()
+        public async Task<List<Tournament>> GetTournamentsAsync(Guid userGuid)
         {
-            return await _chessinatorDbContext.Tournaments.ToListAsync();
+            return await _chessinatorDbContext.Tournaments.Where(t => t.UserId == userGuid).ToListAsync();
         }
-
-        public async Task<List<Tournament>> GetTournamentsByUserIdAsync(Guid userGuid)
-        {
-            User trackerUserTournament = await _chessinatorDbContext.Users.FindAsync(userGuid);
-            return await _chessinatorDbContext.Tournaments.ToListAsync();
-        }
-
         public async Task<Tournament> UpdateTournamentAsync(Tournament tournament)
         {
             Tournament trackedTournament =  await _chessinatorDbContext.Tournaments.FindAsync(tournament.Id);

@@ -1,5 +1,6 @@
 ﻿@page "/tournamentList"
 @inject ITournamentService TournamentService
+@inject Blazored.SessionStorage.ISessionStorageService sessionStorage
 
 <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
@@ -73,18 +74,18 @@ else
             {
                 foreach (TournamentDto t in tournaments)
                 {
-        <tr>
-            <td>@t.Name</td>
-            <td>@t.Type</td>
-            <td>@t.Seeding</td>
-            <td>@t.Time</td>
-            <td>@t.DateTime</td>
+                    <tr>
+                        <td>@t.Name</td>
+                        <td>@t.Type</td>
+                        <td>@t.Seeding</td>
+                        <td>@t.Time</td>
+                        <td>@t.DateTime</td>
 
-            <td>
-                <a class="btn btn-primary" href='/editTournament/@t.Id'>Edit</a>  |
-                <a class="btn btn-danger" @onclick="() => DeleteTournamentAsync(t.Id)">Delete</a>
-            </td>
-        </tr>
+                        <td>
+                            <a class="btn btn-primary" href='/editTournament/@t.Id'>Edit</a>  |
+                            <a class="btn btn-danger" @onclick="() => DeleteTournamentAsync(t.Id)">Delete</a>
+                        </td>
+                    </tr>
                 }
             }
 
@@ -99,12 +100,14 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        tournaments = await TournamentService.GetTournamentsAsync();
+        Guid userId = await sessionStorage.GetItemAsync<Guid>("userguid");
+        tournaments = await TournamentService.GetTournamentsAsync(userId);
     }
 
     protected async Task DeleteTournamentAsync(Guid id)
     {
         await TournamentService.DeleteTournamentAsync(id);
-        tournaments = await TournamentService.GetTournamentsAsync();
+        Guid userId = await sessionStorage.GetItemAsync<Guid>("userguid");
+        tournaments = await TournamentService.GetTournamentsAsync(userId);
     }
 }

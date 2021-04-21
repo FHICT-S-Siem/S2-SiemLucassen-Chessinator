@@ -13,7 +13,7 @@ namespace Chessinator.Domain.Entities
         public string Participant { get; set; }
         public int Groups { get; set; }
         public int GroupSize { get; set; }
-        public ICollection<Player> Players { get; set; }
+        public ICollection<Player> Players { get; set; } = new List<Player>();
 
     }
 }

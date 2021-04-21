@@ -21,6 +21,8 @@ namespace Chessinator.Presentation.Authorization
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
         {
             var username = await _sessionStorageService.GetItemAsync<string>("username");
+            var userGuid = await _sessionStorageService.GetItemAsync<string>("userguid");
+
             ClaimsIdentity identity;
             if (username != null)
             {

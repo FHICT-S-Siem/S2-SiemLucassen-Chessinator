@@ -1,13 +1,11 @@
 ﻿using Chessinator.Application.Interfaces;
 using Chessinator.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Chessinator.Application.Dtos;
 using Chessinator.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Chessinator.Persistence.Repositories
 {
@@ -23,6 +21,11 @@ namespace Chessinator.Persistence.Repositories
         public async Task<User> GetUserByUsernameAsync(string username)
         {
             return await _dbContext.Users.Where(user => user.Username == username).FirstOrDefaultAsync();
+        }
+
+        public async Task<User> GetUserByIdAsync(Guid userId)
+        {
+            return await _dbContext.Users.FindAsync(userId);
         }
 
         public async Task<User> CreateUserAsync(User user)
