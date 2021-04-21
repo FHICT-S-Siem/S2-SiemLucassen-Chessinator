@@ -53,7 +53,7 @@
 
         claimsPrincipal = (await authenticationStateTask).User;
 
-        if (claimsPrincipal.Identity.IsAuthenticated)
+        if (claimsPrincipal.Identity != null && claimsPrincipal.Identity.IsAuthenticated)
         {
             NavigationManager.NavigateTo("/index");
         }

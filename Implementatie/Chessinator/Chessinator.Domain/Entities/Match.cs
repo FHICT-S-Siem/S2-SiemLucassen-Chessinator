@@ -1,19 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Chessinator.Domain.Entities
 {
-    public class Player
+    public class Match
     {
         public Guid Id { get; set; }
-        public string Name { get; set; }
-        public int Points { get; set; }
+        public Guid TournamentId { get; set; }
+        public bool IsPlayed { get; set; }
+        public bool Winner { get; set; }
 
         // EF Core 5.0 recognizes this as a many-to-many relationship by convention, and automatically creates a PlayerMatch join table in the database.
-        public ICollection<Match> Matches { get; set; }
-        public ICollection<Group> Groups { get; set; }
+        public ICollection<Player> Players { get; set; }
     }
 }

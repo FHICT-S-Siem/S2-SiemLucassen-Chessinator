@@ -14,6 +14,13 @@ namespace Chessinator.Persistence.Configurations
             builder.Property(p => p.Time).IsRequired();
             builder.Property(p => p.Type).IsRequired();
             builder.Property(p => p.DateTime).IsRequired().HasDefaultValueSql("getdate()");
+
+            builder
+                .HasMany(p => p.Matches)
+                .WithOne().HasForeignKey(p => p.TournamentId);
+            builder
+                .HasMany(p => p.Groups)
+                .WithOne().HasForeignKey(p => p.TournamentId);
         }
     }
 }

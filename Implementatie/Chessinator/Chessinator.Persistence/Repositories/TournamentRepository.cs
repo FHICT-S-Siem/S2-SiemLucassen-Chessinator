@@ -54,6 +54,12 @@ namespace Chessinator.Persistence.Repositories
             return await _chessinatorDbContext.Tournaments.ToListAsync();
         }
 
+        public async Task<List<Tournament>> GetTournamentsByUserIdAsync(Guid userGuid)
+        {
+            User trackerUserTournament = await _chessinatorDbContext.Users.FindAsync(userGuid);
+            return await _chessinatorDbContext.Tournaments.ToListAsync();
+        }
+
         public async Task<Tournament> UpdateTournamentAsync(Tournament tournament)
         {
             Tournament trackedTournament =  await _chessinatorDbContext.Tournaments.FindAsync(tournament.Id);

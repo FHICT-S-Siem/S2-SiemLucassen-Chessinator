@@ -16,6 +16,11 @@ namespace Chessinator.Persistence.Configurations
             builder.Property(p => p.Extra).IsRequired();
             builder.Property(p => p.Role).HasDefaultValue("User").IsRequired();
             builder.Property(p => p.UserStatus).HasDefaultValue("Active").IsRequired();
+            // A single user has many tournaments.  
+            builder
+                .HasMany(p => p.Tournaments)
+                .WithOne(p => p.User)
+                .HasForeignKey(p => p.UserId);
         }
     }
 }

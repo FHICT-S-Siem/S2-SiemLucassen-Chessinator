@@ -4,14 +4,16 @@ using Chessinator.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Chessinator.Persistence.Migrations
 {
     [DbContext(typeof(ChessinatorDbContext))]
-    partial class ChessinatorDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210421171028_initial_create")]
+    partial class initial_create
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

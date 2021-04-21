@@ -30,6 +30,12 @@ namespace Chessinator.Application.Interfaces
         public Task<List<Tournament>> GetTournamentsAsync();
 
         /// <summary>
+        /// Gets the tournaments by User id.
+        /// </summary>
+        /// <returns></returns>
+        public Task<List<Tournament>> GetTournamentsByUserIdAsync(Guid userGuid);
+
+        /// <summary>
         /// Deletes a tournament with the given id.
         /// </summary>
         /// <param name="tournamentId">The tournament id.</param>
