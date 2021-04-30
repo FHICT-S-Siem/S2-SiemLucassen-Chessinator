@@ -1,11 +1,10 @@
-﻿using Chessinator.Application.Dtos;
+﻿using AutoMapper;
+using Chessinator.Application.Dtos;
 using Chessinator.Application.Interfaces;
 using Chessinator.Domain.Entities;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
 
 namespace Chessinator.Application.Services
 {
@@ -44,7 +43,7 @@ namespace Chessinator.Application.Services
             return _mapper.Map<TournamentDto>(createdTournament);
         }
 
-        public async Task<List<TournamentDto>> GetTournamentsAsync(Guid userGuid)
+        public async Task<List<TournamentDto>> GetTournamentsByUserIdAsync(Guid userGuid)
         {
             // tournaments from repository
             List<Tournament> tournaments = await _tournamentRepository.GetTournamentsAsync(userGuid);

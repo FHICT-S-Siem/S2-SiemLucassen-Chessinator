@@ -101,13 +101,13 @@ else
     protected override async Task OnInitializedAsync()
     {
         Guid userId = await sessionStorage.GetItemAsync<Guid>("userguid");
-        tournaments = await TournamentService.GetTournamentsAsync(userId);
+        tournaments = await TournamentService.GetTournamentsByUserIdAsync(userId);
     }
 
     protected async Task DeleteTournamentAsync(Guid id)
     {
         await TournamentService.DeleteTournamentAsync(id);
         Guid userId = await sessionStorage.GetItemAsync<Guid>("userguid");
-        tournaments = await TournamentService.GetTournamentsAsync(userId);
+        tournaments = await TournamentService.GetTournamentsByUserIdAsync(userId);
     }
 }

@@ -10,20 +10,21 @@ namespace Chessinator.Application.Interfaces
         /// <summary>
         /// Creates a tournament with the given name.
         /// </summary>
-        /// <param name="name">The tournament name.</param>
+        /// <param name="tournament">The tournament name.</param>
         /// <returns>Returns the created tournament.</returns>
         public Task<TournamentDto> CreateTournamentAsync(TournamentDto tournament);
 
         /// <summary>
         /// Gets all tournaments.
         /// </summary>
+        /// <param name="userGuid"></param>
         /// <returns>Returns a list of tournaments.</returns>
-        public Task<List<TournamentDto>> GetTournamentsAsync(Guid userGuid);
+        public Task<List<TournamentDto>> GetTournamentsByUserIdAsync(Guid userGuid);
 
         /// <summary>
         /// Gets a tournament by name.
         /// </summary>
-        /// <param name="name">The tournament name.</param>
+        /// <param name="tournamentName">The tournament name.</param>
         /// <returns>Returns a tournament.</returns>
         public Task<TournamentDto> GetTournamentByNameAsync(string tournamentName);
 
