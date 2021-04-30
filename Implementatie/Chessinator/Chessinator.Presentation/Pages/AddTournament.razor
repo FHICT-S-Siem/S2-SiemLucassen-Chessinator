@@ -1,7 +1,7 @@
 ﻿@page "/addTournament"
-@inject ITournamentService TournamentService
 @inject NavigationManager NavigationManager
 @inject Blazored.SessionStorage.ISessionStorageService sessionStorage
+@inject ITournamentService TournamentService
 <h1>
     Add Tournament
 </h1>
@@ -22,6 +22,7 @@
             <div class="form-group">
                 <button type="button" class="btn btn-primary" @onclick="CreateTournamentAsync">Save</button>
                 <button type="button" class="btn btn-danger" @onclick="Cancel">Cancel</button>
+
             </div>
         </form>
     </div>
@@ -43,4 +44,5 @@
     {
         NavigationManager.NavigateTo("/tournamentList");
     }
+    
 }

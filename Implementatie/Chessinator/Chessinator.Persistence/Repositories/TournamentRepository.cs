@@ -18,7 +18,6 @@ namespace Chessinator.Persistence.Repositories
         {
             _chessinatorDbContext = chessinatorDbContext;
         }
-
         /// <summary>
         /// Adds tournament to database.
         /// </summary>
@@ -30,7 +29,6 @@ namespace Chessinator.Persistence.Repositories
             await _chessinatorDbContext.SaveChangesAsync();
             return trackedTournament.Entity;
         }
-
         public async Task<bool> DeleteTournamentAsync(Guid tournamentId)
         {
             Tournament trackedTournament = await _chessinatorDbContext.Tournaments.FindAsync(tournamentId);
@@ -39,17 +37,14 @@ namespace Chessinator.Persistence.Repositories
             return rowsChanged > 0;
 
         }
-
         public async Task<Tournament> GetTournamentByIdAsync(Guid tournamentId)
         {
             return await _chessinatorDbContext.Tournaments.FindAsync(tournamentId);
         }
-
         public async Task<Tournament> GetTournamentByNameAsync(string tournamentName)
         {
             return await _chessinatorDbContext.Tournaments.FindAsync(tournamentName);
         }
-
         public async Task<List<Tournament>> GetTournamentsAsync(Guid userGuid)
         {
             return await _chessinatorDbContext.Tournaments.Where(t => t.UserId == userGuid).ToListAsync();

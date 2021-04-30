@@ -1,0 +1,37 @@
+﻿@page "/organiseTournament"
+@inject NavigationManager NavigationManager
+@inject IGroupService GroupService
+
+<h1>
+    Organise tournament
+</h1>
+
+<div class="row">
+    <div class="col-md-4">
+        <form>
+            <div class="form-group">
+                <label for="Name" class="control-label">Name</label>
+                <input for="Name" class="form-control" @bind-value="@group.Participant" />
+            </div>
+            <div class="form-group">
+                <button type="button" class="btn btn-primary" @onclick="CreateGroupAsync">Save</button>
+                <button type="button" class="btn btn-danger" @onclick="Cancel">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+@code {
+    GroupDto group = new GroupDto();
+
+    protected async Task CreateGroupAsync()
+    {
+        group.Id = Guid.NewGuid();
+        await GroupService.CreateGroupAsync(group);
+        NavigationManager.NavigateTo("/organiseTournament");
+    }
+
+    void Cancel()
+    {
+        NavigationManager.NavigateTo("/organiseTournament");
+    }
+}

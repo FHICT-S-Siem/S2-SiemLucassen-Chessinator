@@ -1,6 +1,8 @@
 ﻿@page "/tournamentList"
-@inject ITournamentService TournamentService
+@inject NavigationManager NavigationManager
 @inject Blazored.SessionStorage.ISessionStorageService sessionStorage
+@inject ITournamentService TournamentService
+
 
 <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
@@ -84,6 +86,8 @@ else
                         <td>
                             <a class="btn btn-primary" href='/editTournament/@t.Id'>Edit</a>  |
                             <a class="btn btn-danger" @onclick="() => DeleteTournamentAsync(t.Id)">Delete</a>
+                            <a class="btn btn-success" href='/organiseTournament'>Organise Tournament</a>
+
                         </td>
                     </tr>
                 }

@@ -44,10 +44,12 @@ namespace Chessinator.Presentation
             // Adds the repositories with their interfaces.
             services.AddScoped<ITournamentRepository, TournamentRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+            //services.AddScoped<IGroupRepository, GroupRepository>();
 
             // Adds the services with their interfaces.
             services.AddScoped<ITournamentService, TournamentService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IGroupService, GroupService>();
 
             // Adds AuthenticationStateProvider with the CustomAuthenticationStateProvider
             services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
