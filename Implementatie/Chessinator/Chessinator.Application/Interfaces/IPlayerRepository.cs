@@ -12,6 +12,7 @@ namespace Chessinator.Application.Interfaces
         public Task<Player> CreatePlayerAsync(Player player);
         public Task<bool> DeletePlayerAsync(Guid playerGuid);
         public Task<Player> GetPlayerByIdAsync(Guid Id);
+        public Task<List<Player>> GetPlayersByIdAsync(Guid Id);
         public Task<Player> UpdatePlayerAsync(Player player);
     }
 }

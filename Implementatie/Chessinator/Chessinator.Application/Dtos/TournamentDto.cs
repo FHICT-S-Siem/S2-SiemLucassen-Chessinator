@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using Chessinator.Domain.Entities;
 
 namespace Chessinator.Application.Dtos
 {
@@ -11,5 +13,6 @@ namespace Chessinator.Application.Dtos
         public string Seeding { get; set; }
         public string Time { get; set; }
         public DateTime DateTime { get; set; }
+        public List<GroupDto> Groups { get; set; } = new List<GroupDto>();
     }
 }

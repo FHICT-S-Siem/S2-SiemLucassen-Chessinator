@@ -39,11 +39,11 @@
     protected async Task UpdateTournament()
     {
         await TournamentService.UpdateTournamentAsync(tournament);
-        NavigationManager.NavigateTo("/tournamentList");
+        NavigationManager.NavigateTo("/fetchTournament");
     }
 
     void Cancel()
     {
-        NavigationManager.NavigateTo("/tournamentList");
+        NavigationManager.NavigateTo("/fetchTournament");
     }
 }

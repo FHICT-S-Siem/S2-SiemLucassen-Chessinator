@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Chessinator.Application.Interfaces;
 using Chessinator.Domain.Entities;
 using Chessinator.Persistence.Contexts;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Chessinator.Persistence.Repositories
@@ -33,6 +35,12 @@ namespace Chessinator.Persistence.Repositories
         public async Task<Player> GetPlayerByIdAsync(Guid Id)
         {
             return await _chessinatorDbContext.Players.FindAsync(Id);
+        }
+
+        public async Task<List<Player>> GetPlayersByIdAsync(Guid Id)
+        {
+            return await _chessinatorDbContext.Players.Where(t => t.Id == Id).ToListAsync();
+
         }
 
         public Task<Player> UpdatePlayerAsync(Player player)

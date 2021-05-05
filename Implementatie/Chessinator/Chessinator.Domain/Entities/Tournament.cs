@@ -14,9 +14,8 @@ namespace Chessinator.Domain.Entities
         public string Seeding { get; set; }
         public string Time { get; set; }
         public DateTime DateTime { get; set; }
-
-
-        public ICollection<Match> Matches { get; set; } = new List<Match>();
-        public ICollection<Group> Groups { get; set; } = new List<Group>();
+        
+        public List<Match> Matches { get; set; } = new List<Match>();
+        public List<Group> Groups { get; set; } = new List<Group>();
     }
 }

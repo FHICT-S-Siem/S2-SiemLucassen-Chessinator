@@ -37,12 +37,12 @@
         tournament.Id = Guid.NewGuid();
         tournament.UserId = await sessionStorage.GetItemAsync<Guid>("userguid");
         await TournamentService.CreateTournamentAsync(tournament);
-        NavigationManager.NavigateTo("/tournamentList");
+        NavigationManager.NavigateTo("/fetchTournament");
     }
 
     void Cancel()
     {
-        NavigationManager.NavigateTo("/tournamentList");
+        NavigationManager.NavigateTo("/fetchTournament");
     }
     
 }

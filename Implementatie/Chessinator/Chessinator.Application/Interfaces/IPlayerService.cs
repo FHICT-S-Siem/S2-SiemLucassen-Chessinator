@@ -14,6 +14,8 @@ namespace Chessinator.Application.Interfaces
 
         public Task<ParticipantDto> GetPlayerByIdAsync(Guid Id);
 
+        public Task<List<ParticipantDto>> GetPlayersByIdAsync(Guid Id);
+
         public Task<ParticipantDto> UpdatePlayerAsync(ParticipantDto player);
     }
 }
