@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Chessinator.Persistence.Migrations
 {
     [DbContext(typeof(ChessinatorDbContext))]
-    [Migration("20210421171028_initial_create")]
-    partial class initial_create
+    [Migration("20210505122120_Initial_Db_Create")]
+    partial class Initial_Db_Create
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -27,13 +27,7 @@ namespace Chessinator.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("GroupSize")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Groups")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Participant")
+                    b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("TournamentId")
@@ -43,7 +37,7 @@ namespace Chessinator.Persistence.Migrations
 
                     b.HasIndex("TournamentId");
 
-                    b.ToTable("Group");
+                    b.ToTable("Groups");
                 });
 
             modelBuilder.Entity("Chessinator.Domain.Entities.Match", b =>

@@ -14,6 +14,6 @@ namespace Chessinator.Application.Interfaces
 
         public Task<bool> DeleteGroupAsync(Guid groupGuid);
 
-        public Task<Group> UpdateGroupAsync(Group groupDto);
+        public Task<Group> UpdateGroupAsync(Group group);
     }
 }

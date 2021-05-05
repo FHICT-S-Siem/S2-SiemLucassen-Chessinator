@@ -32,7 +32,13 @@ namespace Chessinator.Application.Services
         {
             // Does a user exist with the given credentials?
             User user = await _userRepository.GetUserByUsernameAsync(loginDto.Username);
-
+            if (user == null)
+            {
+                return new LoginResponseDto()
+                {
+                    Success = false
+                };
+            }
             if (_hasher.VerifyHash(user.Secret, user.Extra, loginDto.Password))
             {
                 return new LoginResponseDto()

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Chessinator.Persistence.Migrations
 {
-    public partial class initial_create : Migration
+    public partial class Initial_Db_Create : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -62,20 +62,18 @@ namespace Chessinator.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Group",
+                name: "Groups",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     TournamentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Participant = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Groups = table.Column<int>(type: "int", nullable: false),
-                    GroupSize = table.Column<int>(type: "int", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Group", x => x.Id);
+                    table.PrimaryKey("PK_Groups", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Group_Tournaments_TournamentId",
+                        name: "FK_Groups_Tournaments_TournamentId",
                         column: x => x.TournamentId,
                         principalTable: "Tournaments",
                         principalColumn: "Id",
@@ -113,9 +111,9 @@ namespace Chessinator.Persistence.Migrations
                 {
                     table.PrimaryKey("PK_GroupPlayer", x => new { x.GroupsId, x.PlayersId });
                     table.ForeignKey(
-                        name: "FK_GroupPlayer_Group_GroupsId",
+                        name: "FK_GroupPlayer_Groups_GroupsId",
                         column: x => x.GroupsId,
-                        principalTable: "Group",
+                        principalTable: "Groups",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -151,14 +149,14 @@ namespace Chessinator.Persistence.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Group_TournamentId",
-                table: "Group",
-                column: "TournamentId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_GroupPlayer_PlayersId",
                 table: "GroupPlayer",
                 column: "PlayersId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Groups_TournamentId",
+                table: "Groups",
+                column: "TournamentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Match_TournamentId",
@@ -185,7 +183,7 @@ namespace Chessinator.Persistence.Migrations
                 name: "MatchPlayer");
 
             migrationBuilder.DropTable(
-                name: "Group");
+                name: "Groups");
 
             migrationBuilder.DropTable(
                 name: "Match");

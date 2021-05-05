@@ -9,9 +9,7 @@ namespace Chessinator.Persistence.Configurations
         public void Configure(EntityTypeBuilder<Group> builder)
         {
             builder.HasKey(p => p.Id);
-            builder.Property(p => p.Participant).IsRequired();
-            builder.Property(p => p.Groups).IsRequired();
-            builder.Property(p => p.GroupSize).IsRequired();
+            builder.Property(p => p.Name).IsRequired();
 
             // Many Groups have many Players
             builder

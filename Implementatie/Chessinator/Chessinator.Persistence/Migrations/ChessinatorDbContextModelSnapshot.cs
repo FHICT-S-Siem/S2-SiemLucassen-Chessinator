@@ -25,13 +25,7 @@ namespace Chessinator.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("GroupSize")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Groups")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Participant")
+                    b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("TournamentId")
@@ -41,7 +35,7 @@ namespace Chessinator.Persistence.Migrations
 
                     b.HasIndex("TournamentId");
 
-                    b.ToTable("Group");
+                    b.ToTable("Groups");
                 });
 
             modelBuilder.Entity("Chessinator.Domain.Entities.Match", b =>

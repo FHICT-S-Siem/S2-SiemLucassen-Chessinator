@@ -7,7 +7,7 @@ namespace Chessinator.Application.Interfaces
 {
     public interface IGroupService
     {
-        public Task<GroupDto> CreateGroupAsync(GroupDto group);
+        public Task<GroupDto> CreateGroupAsync(GroupDto groupDto);
 
         public Task<List<GroupDto>> GetGroupsByTournamentIdAsync(Guid tournamentGuid);
 

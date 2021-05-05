@@ -10,10 +10,8 @@ namespace Chessinator.Domain.Entities
     {
         public Guid Id { get; set; }
         public Guid TournamentId { get; set; }
-        public string Participant { get; set; }
-        public int Groups { get; set; }
-        public int GroupSize { get; set; }
-        public ICollection<Player> Players { get; set; } = new List<Player>();
+        public string Name { get; set; }
+        public List<Player> Players { get; set; } = new List<Player>();
 
     }
 }

@@ -15,6 +15,8 @@ namespace Chessinator.Persistence.Contexts
         /// </summary>
         public DbSet<Tournament> Tournaments { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<Group> Groups { get; set; }
+        public DbSet<Player> Players { get; set; }
 
         public ChessinatorDbContext(DbContextOptions<ChessinatorDbContext> options) : base(options)
         {

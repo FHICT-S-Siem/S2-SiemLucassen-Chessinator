@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Chessinator.Application.Interfaces;
 using Chessinator.Domain.Entities;
 using Chessinator.Persistence.Contexts;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Chessinator.Persistence.Repositories
 {
@@ -17,24 +20,39 @@ namespace Chessinator.Persistence.Repositories
             _chessinatorDbContext = chessinatorDbContext;
         }
 
-        public Task<Group> CreateGroupAsync(Group group)
+        public async Task<Group> CreateGroupAsync(Group group)
         {
-            throw new NotImplementedException();
+            EntityEntry<Group> trackedGroup = await _chessinatorDbContext.Groups.AddAsync(group);
+            await _chessinatorDbContext.SaveChangesAsync();
+            return trackedGroup.Entity;
         }
 
-        public Task<List<Group>> GetGroupsByTournamentIdAsync(Guid tournamentGuid)
+        public async Task<List<Group>> GetGroupsByTournamentIdAsync(Guid tournamentGuid)
         {
-            throw new NotImplementedException();
+            return await _chessinatorDbContext.Groups.Where(t => t.TournamentId == tournamentGuid).ToListAsync();
+
         }
 
-        public Task<bool> DeleteGroupAsync(Guid groupGuid)
+        public async Task<bool> DeleteGroupAsync(Guid groupGuid)
         {
-            throw new NotImplementedException();
+            Group trackedGroup = await _chessinatorDbContext.Groups.FindAsync(groupGuid);
+            _chessinatorDbContext.Groups.Remove(trackedGroup);
+            int rowsChanged = await _chessinatorDbContext.SaveChangesAsync();
+            return rowsChanged > 0;
         }
 
-        public Task<Group> UpdateGroupAsync(Group groupDto)
+        public async Task<Group> UpdateGroupAsync(Group group)
         {
-            throw new NotImplementedException();
+            Group trackedGroup = await _chessinatorDbContext.Groups.FindAsync(group.Id);
+
+            if (trackedGroup != null)
+            {
+                trackedGroup.Name = group.Name;
+
+                await _chessinatorDbContext.SaveChangesAsync();
+            }
+
+            return trackedGroup;
         }
     }
 }

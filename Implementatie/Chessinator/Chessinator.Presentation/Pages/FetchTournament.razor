@@ -2,7 +2,7 @@
 @inject NavigationManager NavigationManager
 @inject Blazored.SessionStorage.ISessionStorageService sessionStorage
 @inject ITournamentService TournamentService
-
+@inject States.TournamentState TournamentState
 
 <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
@@ -86,7 +86,7 @@ else
                         <td>
                             <a class="btn btn-primary" href='/editTournament/@t.Id'>Edit</a>  |
                             <a class="btn btn-danger" @onclick="() => DeleteTournamentAsync(t.Id)">Delete</a>
-                            <a class="btn btn-success" href='/organiseTournament'>Organise Tournament</a>
+                            <a class="btn btn-success" @onclick="() => NavigateToOrganiseTournament(t)">Organise Tournament</a>
 
                         </td>
                     </tr>
@@ -101,6 +101,11 @@ else
 @code {
     List<TournamentDto> tournaments;
 
+    private void NavigateToOrganiseTournament(TournamentDto tournamentDto)
+    {
+        TournamentState.TournamentDto = tournamentDto;
+        NavigationManager.NavigateTo($"/organiseTournament/{tournamentDto.Id}");
+    }
 
     protected override async Task OnInitializedAsync()
     {

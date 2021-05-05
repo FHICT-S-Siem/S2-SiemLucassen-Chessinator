@@ -5,6 +5,7 @@ using Chessinator.Application.Services;
 using Chessinator.Persistence.Contexts;
 using Chessinator.Persistence.Repositories;
 using Chessinator.Presentation.Authorization;
+using Chessinator.Presentation.States;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Hosting;
@@ -44,15 +45,20 @@ namespace Chessinator.Presentation
             // Adds the repositories with their interfaces.
             services.AddScoped<ITournamentRepository, TournamentRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
-            //services.AddScoped<IGroupRepository, GroupRepository>();
+            services.AddScoped<IGroupRepository, GroupRepository>();
+            services.AddScoped<IPlayerRepository, PlayerRepository>();
 
             // Adds the services with their interfaces.
             services.AddScoped<ITournamentService, TournamentService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IGroupService, GroupService>();
+            services.AddScoped<IPlayerService, PlayerService>();
 
             // Adds AuthenticationStateProvider with the CustomAuthenticationStateProvider
             services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
+
+            // Adds TournamentState
+            services.AddScoped<TournamentState>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
