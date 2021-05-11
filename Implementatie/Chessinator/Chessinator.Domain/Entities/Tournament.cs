@@ -17,5 +17,6 @@ namespace Chessinator.Domain.Entities
         
         public List<Match> Matches { get; set; } = new List<Match>();
         public List<Group> Groups { get; set; } = new List<Group>();
+        public List<Player> Players { get; set; } = new List<Player>();
     }
 }

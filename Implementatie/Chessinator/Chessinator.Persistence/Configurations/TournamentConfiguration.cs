@@ -21,6 +21,9 @@ namespace Chessinator.Persistence.Configurations
             builder
                 .HasMany(p => p.Groups)
                 .WithOne().HasForeignKey(p => p.TournamentId);
+            builder
+                .HasMany(p => p.Players)
+                .WithOne().HasForeignKey(p => p.TournamentId);
         }
     }
 }

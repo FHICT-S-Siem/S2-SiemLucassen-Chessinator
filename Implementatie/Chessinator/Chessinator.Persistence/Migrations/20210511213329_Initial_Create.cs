@@ -3,23 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Chessinator.Persistence.Migrations
 {
-    public partial class Initial_Db_Create : Migration
+    public partial class Initial_Create : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "Player",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Points = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Player", x => x.Id);
-                });
-
             migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
@@ -67,7 +54,9 @@ namespace Chessinator.Persistence.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     TournamentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Participant1 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Participant2 = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -101,57 +90,77 @@ namespace Chessinator.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "GroupPlayer",
+                name: "Players",
                 columns: table => new
                 {
-                    GroupsId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    PlayersId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    TournamentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Points = table.Column<int>(type: "int", nullable: false, defaultValue: 0)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_GroupPlayer", x => new { x.GroupsId, x.PlayersId });
+                    table.PrimaryKey("PK_Players", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_GroupPlayer_Groups_GroupsId",
-                        column: x => x.GroupsId,
+                        name: "FK_Players_Tournaments_TournamentId",
+                        column: x => x.TournamentId,
+                        principalTable: "Tournaments",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "GroupPlayer",
+                columns: table => new
+                {
+                    PlayerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    GroupId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GroupPlayer", x => new { x.GroupId, x.PlayerId });
+                    table.ForeignKey(
+                        name: "FK_GroupPlayer_Groups_GroupId",
+                        column: x => x.GroupId,
                         principalTable: "Groups",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_GroupPlayer_Player_PlayersId",
-                        column: x => x.PlayersId,
-                        principalTable: "Player",
+                        name: "FK_GroupPlayer_Players_PlayerId",
+                        column: x => x.PlayerId,
+                        principalTable: "Players",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
                 name: "MatchPlayer",
                 columns: table => new
                 {
-                    MatchesId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    PlayersId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    PlayerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    MatchId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MatchPlayer", x => new { x.MatchesId, x.PlayersId });
+                    table.PrimaryKey("PK_MatchPlayer", x => new { x.MatchId, x.PlayerId });
                     table.ForeignKey(
-                        name: "FK_MatchPlayer_Match_MatchesId",
-                        column: x => x.MatchesId,
+                        name: "FK_MatchPlayer_Match_MatchId",
+                        column: x => x.MatchId,
                         principalTable: "Match",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_MatchPlayer_Player_PlayersId",
-                        column: x => x.PlayersId,
-                        principalTable: "Player",
+                        name: "FK_MatchPlayer_Players_PlayerId",
+                        column: x => x.PlayerId,
+                        principalTable: "Players",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_GroupPlayer_PlayersId",
+                name: "IX_GroupPlayer_PlayerId",
                 table: "GroupPlayer",
-                column: "PlayersId");
+                column: "PlayerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Groups_TournamentId",
@@ -164,9 +173,14 @@ namespace Chessinator.Persistence.Migrations
                 column: "TournamentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MatchPlayer_PlayersId",
+                name: "IX_MatchPlayer_PlayerId",
                 table: "MatchPlayer",
-                column: "PlayersId");
+                column: "PlayerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Players_TournamentId",
+                table: "Players",
+                column: "TournamentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Tournaments_UserId",
@@ -189,7 +203,7 @@ namespace Chessinator.Persistence.Migrations
                 name: "Match");
 
             migrationBuilder.DropTable(
-                name: "Player");
+                name: "Players");
 
             migrationBuilder.DropTable(
                 name: "Tournaments");

@@ -10,12 +10,6 @@ namespace Chessinator.Persistence.Configurations
         {
             builder.HasKey(p => p.Id);
             builder.Property(p => p.Name).IsRequired();
-
-            // Many Groups have many Players
-            builder
-                .HasMany(p => p.Players)
-                .WithMany(p => p.Groups);
-
         }
     }
 }

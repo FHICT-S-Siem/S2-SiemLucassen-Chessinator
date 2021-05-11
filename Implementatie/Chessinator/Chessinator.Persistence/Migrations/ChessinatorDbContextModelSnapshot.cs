@@ -26,6 +26,13 @@ namespace Chessinator.Persistence.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Participant1")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Participant2")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("TournamentId")
@@ -36,6 +43,21 @@ namespace Chessinator.Persistence.Migrations
                     b.HasIndex("TournamentId");
 
                     b.ToTable("Groups");
+                });
+
+            modelBuilder.Entity("Chessinator.Domain.Entities.GroupPlayer", b =>
+                {
+                    b.Property<Guid>("GroupId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("PlayerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("GroupId", "PlayerId");
+
+                    b.HasIndex("PlayerId");
+
+                    b.ToTable("GroupPlayer");
                 });
 
             modelBuilder.Entity("Chessinator.Domain.Entities.Match", b =>
@@ -60,6 +82,21 @@ namespace Chessinator.Persistence.Migrations
                     b.ToTable("Match");
                 });
 
+            modelBuilder.Entity("Chessinator.Domain.Entities.MatchPlayer", b =>
+                {
+                    b.Property<Guid>("MatchId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("PlayerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("MatchId", "PlayerId");
+
+                    b.HasIndex("PlayerId");
+
+                    b.ToTable("MatchPlayer");
+                });
+
             modelBuilder.Entity("Chessinator.Domain.Entities.Player", b =>
                 {
                     b.Property<Guid>("Id")
@@ -67,14 +104,22 @@ namespace Chessinator.Persistence.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Points")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
+
+                    b.Property<Guid>("TournamentId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Player");
+                    b.HasIndex("TournamentId");
+
+                    b.ToTable("Players");
                 });
 
             modelBuilder.Entity("Chessinator.Domain.Entities.Tournament", b =>
@@ -160,36 +205,6 @@ namespace Chessinator.Persistence.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("GroupPlayer", b =>
-                {
-                    b.Property<Guid>("GroupsId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("PlayersId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("GroupsId", "PlayersId");
-
-                    b.HasIndex("PlayersId");
-
-                    b.ToTable("GroupPlayer");
-                });
-
-            modelBuilder.Entity("MatchPlayer", b =>
-                {
-                    b.Property<Guid>("MatchesId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("PlayersId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("MatchesId", "PlayersId");
-
-                    b.HasIndex("PlayersId");
-
-                    b.ToTable("MatchPlayer");
-                });
-
             modelBuilder.Entity("Chessinator.Domain.Entities.Group", b =>
                 {
                     b.HasOne("Chessinator.Domain.Entities.Tournament", null)
@@ -199,10 +214,57 @@ namespace Chessinator.Persistence.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Chessinator.Domain.Entities.GroupPlayer", b =>
+                {
+                    b.HasOne("Chessinator.Domain.Entities.Group", "Group")
+                        .WithMany("GroupPlayers")
+                        .HasForeignKey("GroupId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Chessinator.Domain.Entities.Player", "Player")
+                        .WithMany("GroupPlayers")
+                        .HasForeignKey("PlayerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Group");
+
+                    b.Navigation("Player");
+                });
+
             modelBuilder.Entity("Chessinator.Domain.Entities.Match", b =>
                 {
                     b.HasOne("Chessinator.Domain.Entities.Tournament", null)
                         .WithMany("Matches")
+                        .HasForeignKey("TournamentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Chessinator.Domain.Entities.MatchPlayer", b =>
+                {
+                    b.HasOne("Chessinator.Domain.Entities.Match", "Match")
+                        .WithMany("MatchPlayers")
+                        .HasForeignKey("MatchId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Chessinator.Domain.Entities.Player", "Player")
+                        .WithMany("MatchPlayers")
+                        .HasForeignKey("PlayerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Match");
+
+                    b.Navigation("Player");
+                });
+
+            modelBuilder.Entity("Chessinator.Domain.Entities.Player", b =>
+                {
+                    b.HasOne("Chessinator.Domain.Entities.Tournament", null)
+                        .WithMany("Players")
                         .HasForeignKey("TournamentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -219,34 +281,21 @@ namespace Chessinator.Persistence.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("GroupPlayer", b =>
+            modelBuilder.Entity("Chessinator.Domain.Entities.Group", b =>
                 {
-                    b.HasOne("Chessinator.Domain.Entities.Group", null)
-                        .WithMany()
-                        .HasForeignKey("GroupsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Chessinator.Domain.Entities.Player", null)
-                        .WithMany()
-                        .HasForeignKey("PlayersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("GroupPlayers");
                 });
 
-            modelBuilder.Entity("MatchPlayer", b =>
+            modelBuilder.Entity("Chessinator.Domain.Entities.Match", b =>
                 {
-                    b.HasOne("Chessinator.Domain.Entities.Match", null)
-                        .WithMany()
-                        .HasForeignKey("MatchesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("MatchPlayers");
+                });
 
-                    b.HasOne("Chessinator.Domain.Entities.Player", null)
-                        .WithMany()
-                        .HasForeignKey("PlayersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+            modelBuilder.Entity("Chessinator.Domain.Entities.Player", b =>
+                {
+                    b.Navigation("GroupPlayers");
+
+                    b.Navigation("MatchPlayers");
                 });
 
             modelBuilder.Entity("Chessinator.Domain.Entities.Tournament", b =>
@@ -254,6 +303,8 @@ namespace Chessinator.Persistence.Migrations
                     b.Navigation("Groups");
 
                     b.Navigation("Matches");
+
+                    b.Navigation("Players");
                 });
 
             modelBuilder.Entity("Chessinator.Domain.Entities.User", b =>

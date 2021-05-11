@@ -1,108 +1,191 @@
 ﻿@page "/organiseTournament/{tournamentId:guid}"
+@using Microsoft.CodeAnalysis.CSharp.Syntax
+@using Microsoft.AspNetCore.Mvc.Formatters
 @inject NavigationManager NavigationManager
 @inject IGroupService GroupService
 @inject IPlayerService PlayerService
 @inject States.TournamentState TournamentState
 @inject Blazored.SessionStorage.ISessionStorageService sessionStorage
 
-<h1>
+<h1 style="align-self: center">
     Organise tournament @TournamentState.TournamentDto.Name
 </h1>
 
 @if (TournamentState.TournamentDto.Seeding == "Custom")
 {
-    <h2>Add all the players to your custom groups!</h2>
+    <h2 style="align-self: center">Add all the players to your custom groups!</h2>
 
     <div class="row">
         <div class="col-md-4">
-            <form>
-                <div class="form-group">
-                    <label for="Name" class="control-label">Group name</label>
-                    <input for="Name" class="form-control" @bind-value="@group.Name" />
+            <br/>
+            <button class="btn btn-primary" @onclick="AddRows">Add 2 participants</button>
 
-                    <label for="Name" class="control-label">Participant name</label>
-                    <input for="Name" class="form-control" @bind-value="@participant.Name" />
+            <EditForm Model="MyForm">
+                <ul>
+                    @foreach (ParticipantDto player in MyForm.Players)
+                    {
+                        <li style="list-style: none">
+                            <input for="Name" placeholder="Participant name" class="form-control" @bind-value="@player.Name"/>
+                        </li>
+                    }
+                </ul>
+                <button type="button" class="btn btn-primary" @onclick="CreatePlayerAsync">Save</button>
+            </EditForm>
 
-                </div>
-                <div class="form-group">
-                    <button type="button" class="btn btn-primary" @onclick="CreateGroupAsync">Save</button>
-                    <button type="button" class="btn btn-danger" @onclick="GoBack">Go back</button>
-                </div>
-            </form>
+        </div>
+        <div class="col-md-4">
+            <!-- TODO: get all players -->
+
         </div>
     </div>
+    <br>
+    <div class="row">
+        <div class="col-md-4">
+            <button class="btn btn-primary" @onclick="AddGroup">Add Group</button>
+
+            <EditForm Model="MyForm">
+                <ul>
+                    @foreach (GroupDto group in MyForm.Groups)
+                    {
+                    <li style="list-style: none">
+                        <label for="Name" class="control-label">Group name</label>
+                        <input for="Name" class="form-control" @bind-value="@group.Name" />
+
+                        <div class="dropdown-menu">
+                            @foreach (ParticipantDto participant in MyForm.Players)
+                            {
+                                <a class="dropdown-item" placeholder="participant-1" value="@participant">@participant</a>
+                            }
+                        </div>
+
+                        <div class="dropdown-menu">
+                            @foreach (ParticipantDto participant in MyForm.Players)
+                            {
+                                <a class="dropdown-item" placeholder="participant-2" value="@participant">@participant</a>
+                            }
+                        </div>
+
+                    </li>
+                    }
+                </ul>
+                <button type="button" class="btn btn-primary" @onclick="CreateGroupAsync">Save</button>
+            </EditForm>
+
+        </div>
+    </div>
+    <br />
 }
 else
 {
-    <h2>Add all the players to your tournament!</h2>
-    <div class="row">
-        <div class="col-md-4">
-            <form>
-                <div class="form-group">
-                    <label for="Name" class="control-label">Name</label>
-                    <input for="Name" class="form-control" @bind-value="@group.Name" />
+    @*<h2>Add all the players to your tournament!</h2>
+        <div class="row">
+            <div class="col-md-4">
+                <form>
+                    <div class="form-group">
+                        <label for="Name" class="control-label">Name</label>
+                        <input for="Name" class="form-control" @bind-value="@group.Name" />
 
-                </div>
-                <div class="form-group">
-                    <button type="button" class="btn btn-primary" @onclick="CreateGroupAsync">Save</button>
-                    <button type="button" class="btn btn-danger" @onclick="GoBack">Cancel</button>
-                </div>
-            </form>
-        </div>
-    </div>
+                    </div>
+                    <div class="form-group">
+                        <button type="button" class="btn btn-primary" @onclick="CreateGroupAsync">Save</button>
+                        <button type="button" class="btn btn-danger" @onclick="GoBack">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>*@
 }
 
 <table class="table table-bordered table-hover">
     <thead>
-    <tr>
-        <th class="sort-th">
-            Name
-            <span class="fa"></span>
-        </th>
-        <th>Action</th>
-    </tr>
+        <tr>
+            <th class="sort-th">
+                Name
+                <span class="fa"></span>
+            </th>
+            <th>Action</th>
+        </tr>
     </thead>
     <tbody>
-    @if (TournamentState.TournamentDto.Groups.Count == 0)
-    {
-        <tr>
-            <td colspan="3">
-                No Records to display
-            </td>
-        </tr>
-    }
-    else
-    {
-        foreach (GroupDto g in TournamentState.TournamentDto.Groups)
+        @if (TournamentState.TournamentDto.Groups.Count == 0)
         {
             <tr>
-                <td>@g.Name</td>
-
-                <td>
-                    <a class="btn btn-success" @onclick="NavigateToMatch">Start tournament</a>
+                <td colspan="3">
+                    No Records to display
                 </td>
             </tr>
         }
-    }
+        else
+        {
+            foreach (GroupDto g in TournamentState.TournamentDto.Groups)
+            {
+    <tr>
+        <td>@g.Name</td>
+        <td>@g.Participant1</td>
+        <td>@g.Participant2</td>
+
+        <td>
+            <a class="btn btn-success" @onclick="NavigateToMatch">Start tournament</a>
+        </td>
+    </tr>
+            }
+        }
 
     </tbody>
 </table>
 
 @code {
-    GroupDto group = new GroupDto();
-    ParticipantDto participant = new ParticipantDto();
-    
+    public class OrganiseTournamentForm
+    {
+        public List<GroupDto> Groups { get; set; } = new List<GroupDto>();
+        public List<ParticipantDto> Players { get; set; } = new List<ParticipantDto>();
+    }
+
+    OrganiseTournamentForm MyForm = new OrganiseTournamentForm();
 
     [Parameter]
     public Guid tournamentId { get; set; }
 
+    protected override void OnInitialized()
+    {
+        AddRows();
+        AddGroup();
+        base.OnInitialized();
+    }
+
+    private void AddRows()
+    {
+        MyForm.Players.Add(new ParticipantDto { Name = "" });
+        MyForm.Players.Add(new ParticipantDto { Name = "" });
+    }
+
+    private void AddGroup()
+    {
+        MyForm.Groups.Add(new GroupDto() { Name = "" });
+    }
+
+    protected async Task CreatePlayerAsync()
+    {
+        foreach (var player in MyForm.Players)
+        {
+            player.Id = Guid.NewGuid();
+            await PlayerService.CreatePlayerAsync(player);
+        }
+
+        NavigationManager.NavigateTo($"/organiseTournament/{tournamentId}");
+    }
+
     protected async Task CreateGroupAsync()
     {
-        group.Id = Guid.NewGuid();
-        participant.Id = Guid.NewGuid();
-        group.TournamentId = tournamentId;
-        await GroupService.CreateGroupAsync(group);
-        await PlayerService.CreatePlayerAsync(participant);
+        //TODO: Assign players to group-participants.
+        // Participant1 & Participant2 must be filled.
+
+        foreach (var group in MyForm.Groups)
+        {
+            group.Id = Guid.NewGuid();
+            group.TournamentId = tournamentId;
+            await GroupService.CreateGroupAsync(group);
+        }
+
         NavigationManager.NavigateTo("/organiseTournament");
     }
 

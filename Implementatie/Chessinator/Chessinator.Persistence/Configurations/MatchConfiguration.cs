@@ -12,10 +12,10 @@ namespace Chessinator.Persistence.Configurations
             builder.Property(p => p.IsPlayed);
             builder.Property(p => p.Winner);
 
-            // Many Matches have many Players.  
-            builder
-                .HasMany(p => p.Players)
-                .WithMany(p => p.Matches);
+            //Many Matches have many Players.
+           builder
+               .HasMany(p => p.Players)
+               .WithMany(p => p.Matches);
         }
     }
 }

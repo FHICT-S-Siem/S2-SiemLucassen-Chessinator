@@ -48,6 +48,8 @@ namespace Chessinator.Persistence.Repositories
             if (trackedGroup != null)
             {
                 trackedGroup.Name = group.Name;
+                trackedGroup.Participant1 = group.Participant1;
+                trackedGroup.Participant2 = group.Participant2;
 
                 await _chessinatorDbContext.SaveChangesAsync();
             }

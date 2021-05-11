@@ -36,9 +36,51 @@ namespace Chessinator.Persistence.Contexts
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            //modelBuilder
+            //    .Entity<GroupPlayer>()
+            //    .HasKey(p => new { p.PlayerId, p.GroupId });
+
+            //modelBuilder
+            //    .Entity<GroupPlayer>()
+            //    .HasOne<Player>(p => p.Player)
+            //    .WithMany<Group>(p => p.Groups)
+
+            modelBuilder.Entity<Player>()
+                .HasMany<Group>(p => p.Groups)
+                .WithMany(p => p.Players)
+                .UsingEntity<GroupPlayer>(
+                    j => j
+                    .HasOne(gp => gp.Group)
+                    .WithMany(p => p.GroupPlayers)
+                    .HasForeignKey(p => p.GroupId),
+                j =>j
+                    .HasOne(gp => gp.Player)
+                    .WithMany(p => p.GroupPlayers)
+                    .HasForeignKey(p => p.PlayerId)
+                    .OnDelete(DeleteBehavior.Restrict),
+                        j => j.HasKey(k => new { k.GroupId, k.PlayerId }));
+
+            modelBuilder.Entity<Player>()
+                .HasMany<Match>(p => p.Matches)
+                .WithMany(p => p.Players)
+                .UsingEntity<MatchPlayer>(
+                    j => j
+                        .HasOne(gp => gp.Match)
+                        .WithMany(p => p.MatchPlayers)
+                        .HasForeignKey(p => p.MatchId),
+                    j => j
+                        .HasOne(gp => gp.Player)
+                        .WithMany(p => p.MatchPlayers)
+                        .HasForeignKey(p => p.PlayerId)
+                        .OnDelete(DeleteBehavior.Restrict),
+                    j => j.HasKey(k => new { k.MatchId, k.PlayerId }));
+
+
             // Configures the Data constraints on the Entities.
             modelBuilder.ApplyConfiguration(new TournamentConfiguration());
             modelBuilder.ApplyConfiguration(new UserConfiguration());
+            modelBuilder.ApplyConfiguration(new PlayerConfiguration());
+            modelBuilder.ApplyConfiguration(new GroupConfiguration());
             base.OnModelCreating(modelBuilder);
         }
     }

@@ -39,9 +39,9 @@ namespace Chessinator.Application.Services
             throw new NotImplementedException();
         }
 
-        public async Task<List<ParticipantDto>> GetPlayersByIdAsync(Guid Id)
+        public async Task<List<ParticipantDto>> GetPlayersByTournamentIdAsync(Guid TournamentId)
         {
-            List<Player> players = await _playerRepository.GetPlayersByIdAsync(Id);
+            List<Player> players = await _playerRepository.GetPlayersByTournamentIdAsync(TournamentId);
 
             return _mapper.Map<List<ParticipantDto>>(players);
         }
