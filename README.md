@@ -93,14 +93,21 @@ Ik heb in het algoritmiek opdracht circustrein mijn laatste functie afgemaakt en
 
 In de vierde sprint heb ik vooral aan mijn implementatie gewerkt wat betrekking heeft tot:
 
+Analyse
+- Conceptueel model verbeterd
+
 Implementatie
 - CRUD Groups & Players + Error afhandeling
 - Custom authenticationstate & Sessionstorage toegevoegd
 - Database aangepast (relaties toegevoegd)
+
+Uit de vorige feedback bleek dat bij mijn conceptueel model ik nog kon denken aan subtypering (zowel user als admin hebben inloggegevens), dit heb ik nu verbeterd in het ontwerp.
 
 Graag zou ik feedback willen op mijn implentatie van de CRUD in de frontend.
 
 Ik ben deze sprint begonnen door session storage en custom authenticationstate toe te voegen waardor ik de UserID kan opslaan, zodat wanneer ik bijvoorbeeld de pagina herlaad met een ingelogde user, de user nog steeds gevalideerd is. 
 Ook heb ik goed moeten nadenken hoe ik mijn players en groups moest toevoegen, omdat er vaak validatieschecks bij kwam kijken. Ik heb een aantal wijzigingen gemaakt in de database omdat er een paar relaties nog niet goed stonden. 
  
-Nu ik mijn players en groups kan toevoegen kan ik in de volgende sprint me vol gaan focussen op het "Starten" van een tournament, waarin groepen verdeeld worden en de winnaar tegen een andere winnaar speelt. Ik zal wel rekening moeten houden met hoeveel tijd ik nodig heb om de andere tournament-types te implementeren.
+Nu ik mijn players en groups kan toevoegen kan ik in de volgende sprint me vol gaan focussen op het "Starten" van een tournament, waarin groepen verdeeld worden en de winnaar tegen een andere winnaar speelt. Ook zal ik de rolverdeling van admin moeten toevoegen. 
+
+Ik zal wel rekening moeten houden met hoeveel tijd ik nodig heb om de andere tournament-types te implementeren.
