@@ -29,19 +29,25 @@ namespace Chessinator.Application.Services
             return _mapper.Map<ParticipantDto>(createdPlayer);
         }
 
-        public Task<bool> DeletePlayerAsync(Guid playerGuid)
+        public async Task<bool> DeletePlayerAsync(Guid id)
+        {
+            return await _playerRepository.DeletePlayerAsync(id);
+
+        }
+
+        public async Task<bool> DoesPlayerExist(string name)
+        {
+            return await _playerRepository.DoesPlayerExist(name);
+        }
+
+        public Task<ParticipantDto> GetPlayerByIdAsync(Guid id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<ParticipantDto> GetPlayerByIdAsync(Guid Id)
+        public async Task<List<ParticipantDto>> GetPlayersByTournamentIdAsync(Guid tournamentId)
         {
-            throw new NotImplementedException();
-        }
-
-        public async Task<List<ParticipantDto>> GetPlayersByTournamentIdAsync(Guid TournamentId)
-        {
-            List<Player> players = await _playerRepository.GetPlayersByTournamentIdAsync(TournamentId);
+            List<Player> players = await _playerRepository.GetPlayersByTournamentIdAsync(tournamentId);
 
             return _mapper.Map<List<ParticipantDto>>(players);
         }

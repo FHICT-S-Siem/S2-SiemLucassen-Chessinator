@@ -12,6 +12,8 @@ namespace Chessinator.Application.Interfaces
 
         public Task<List<Group>> GetGroupsByTournamentIdAsync(Guid tournamentGuid);
 
+        public Task<bool> DoesGroupExist(string name);
+
         public Task<bool> DeleteGroupAsync(Guid groupGuid);
 
         public Task<Group> UpdateGroupAsync(Group group);

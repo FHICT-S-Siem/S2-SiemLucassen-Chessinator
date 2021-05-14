@@ -15,6 +15,10 @@
         float: right;
     }
 
+    a {
+        color: white !important;
+    }
+
     .btn-custom {
         color: black;
         float: left;
@@ -87,7 +91,6 @@ else
                             <a class="btn btn-primary" href='/editTournament/@t.Id'>Edit</a>  |
                             <a class="btn btn-danger" @onclick="() => DeleteTournamentAsync(t.Id)">Delete</a>
                             <a class="btn btn-success" @onclick="() => NavigateToOrganiseTournament(t)">Organise Tournament</a>
-
                         </td>
                     </tr>
                 }

@@ -29,8 +29,12 @@ namespace Chessinator.Persistence.Repositories
 
         public async Task<List<Group>> GetGroupsByTournamentIdAsync(Guid tournamentGuid)
         {
-            return await _chessinatorDbContext.Groups.Where(t => t.TournamentId == tournamentGuid).ToListAsync();
+            return await _chessinatorDbContext.Groups.Where(g => g.TournamentId == tournamentGuid).ToListAsync();
+        }
 
+        public async Task<bool> DoesGroupExist(string name)
+        {
+            return await _chessinatorDbContext.Groups.AnyAsync(g => g.Name == name || g.Participant1 == name || g.Participant2 == name);
         }
 
         public async Task<bool> DeleteGroupAsync(Guid groupGuid)

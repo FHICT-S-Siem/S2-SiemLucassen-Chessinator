@@ -10,11 +10,14 @@ namespace Chessinator.Application.Interfaces
     {
         public Task<ParticipantDto> CreatePlayerAsync(ParticipantDto player);
 
-        public Task<bool> DeletePlayerAsync(Guid playerGuid);
-
-        public Task<ParticipantDto> GetPlayerByIdAsync(Guid Id);
-
         public Task<List<ParticipantDto>> GetPlayersByTournamentIdAsync(Guid tournamentId);
+
+        public Task<bool> DoesPlayerExist(string name);
+
+        public Task<bool> DeletePlayerAsync(Guid id);
+
+        public Task<ParticipantDto> GetPlayerByIdAsync(Guid id);
+
 
         public Task<ParticipantDto> UpdatePlayerAsync(ParticipantDto player);
     }

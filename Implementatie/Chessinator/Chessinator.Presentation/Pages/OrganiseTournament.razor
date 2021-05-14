@@ -1,14 +1,36 @@
 ﻿@page "/organiseTournament/{tournamentId:guid}"
 @using Microsoft.CodeAnalysis.CSharp.Syntax
 @using Microsoft.AspNetCore.Mvc.Formatters
+@using Chessinator.Domain.Entities
+@using System.Runtime.CompilerServices
+@using System.ComponentModel
 @inject NavigationManager NavigationManager
 @inject IGroupService GroupService
 @inject IPlayerService PlayerService
 @inject States.TournamentState TournamentState
 @inject Blazored.SessionStorage.ISessionStorageService sessionStorage
+@inject IJSRuntime JsRuntime;
 
-<h1 style="align-self: center">
-    Organise tournament @TournamentState.TournamentDto.Name
+<style>
+    h1 {
+        text-align: center
+    }
+
+    input {
+        margin-top: 5px
+    }
+
+    a {
+        color: white !important;
+    }
+
+    .btn-success {
+        color: white;
+    }
+</style>
+
+<h1>
+    Organise tournament - @TournamentState.TournamentDto.Name
 </h1>
 
 @if (TournamentState.TournamentDto.Seeding == "Custom")
@@ -16,16 +38,17 @@
     <h2 style="align-self: center">Add all the players to your custom groups!</h2>
 
     <div class="row">
-        <div class="col-md-4">
-            <br/>
-            <button class="btn btn-primary" @onclick="AddRows">Add 2 participants</button>
-
+        <div class="col-md-6">
+            <br />
+            <button class="btn btn-primary" @onclick="AddRow">Add participant field</button>
+            <br />
+            <br />
             <EditForm Model="MyForm">
                 <ul>
                     @foreach (ParticipantDto player in MyForm.Players)
                     {
                         <li style="list-style: none">
-                            <input for="Name" placeholder="Participant name" class="form-control" @bind-value="@player.Name"/>
+                            <input for="Name" placeholder="Participant name" class="form-control" @bind-value="@player.Name" />
                         </li>
                     }
                 </ul>
@@ -33,25 +56,28 @@
             </EditForm>
 
         </div>
-        <div class="col-md-4">
-            <!-- TODO: get all players -->
-            @if (TournamentState.TournamentDto.Participants == null)
+        <div class="col-md-6">
+            @if (participants == null)
             {
                 <p><em>Loading...</em></p>
             }
             else
             {
-                <table>
+                <table class="table table-bordered table-hover">
                     <thead>
                         <tr>
                             <th class="sort-th">
                                 Name
                                 <span class="fa"></span>
                             </th>
+                            <th class="sort-th">
+                                Action
+                                <span class="fa"></span>
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
-                        @if (TournamentState.TournamentDto.Participants.Count == 0)
+                        @if (participants.Count == 0)
                         {
                             <tr>
                                 <td colspan="3">
@@ -61,11 +87,16 @@
                         }
                         else
                         {
-                            foreach (ParticipantDto p in TournamentState.TournamentDto.Participants)
+                            foreach (ParticipantDto p in participants)
                             {
-                                <tr>
-                                    <td>@p.Name</td>
-                                </tr>
+                            <tr>
+                                <td>
+                                    @p.Name
+                                </td>
+                                <td>                            
+                                    <a class="btn btn-danger" @onclick="() => DeletePlayerAsync(p.Id)">Delete</a>
+                                </td>
+                            </tr>
                             }
                         }
                     </tbody>
@@ -76,37 +107,35 @@
     </div>
     <br>
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-6">
             <button class="btn btn-primary" @onclick="AddGroup">Add Group</button>
-
+            <br />
+            <br />
             <EditForm Model="MyForm">
                 <ul>
+
                     @foreach (GroupDto group in MyForm.Groups)
                     {
-                    <li style="list-style: none">
-                        <label for="Name" class="control-label">Group name</label>
-                        <input for="Name" class="form-control" @bind-value="@group.Name" />
+                        <li style="list-style: none">
+                            <input for="Name" placeholder="Group name" class="form-control" @bind-value="@group.Name"/>
 
-                        <div class="dropdown-menu">
-                            @foreach (ParticipantDto participant in MyForm.Players)
-                            {
-                                <a class="dropdown-item" placeholder="participant-1" value="@participant">@participant</a>
-                            }
-                        </div>
-
-                        <div class="dropdown-menu">
-                            @foreach (ParticipantDto participant in MyForm.Players)
-                            {
-                                <a class="dropdown-item" placeholder="participant-2" value="@participant">@participant</a>
-                            }
-                        </div>
-
-                    </li>
+                            <InputSelect id="participants" class="form-group"  @bind-Value="@group.Participant1" >
+                                @foreach (ParticipantDto participant in participants)
+                                {
+                                    <option title="Participant-1" value="@participant.Name" selected="selected">@participant.Name</option>
+                                }
+                            </InputSelect>
+                            <InputSelect id="participants" class="form-group" @bind-Value="@group.Participant2" >
+                                @foreach (ParticipantDto participant in participants)
+                                {
+                                    <option title="Participant-2" value="@participant.Name" selected="selected">@participant.Name</option>
+                                }
+                            </InputSelect>
+                        </li>
                     }
                 </ul>
                 <button type="button" class="btn btn-primary" @onclick="CreateGroupAsync">Save</button>
             </EditForm>
-
         </div>
     </div>
     <br />
@@ -130,45 +159,54 @@ else
             </div>
         </div>*@
 }
+<div class="row">
+    <div class="col-6">
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th class="sort-th">
+                        Name
+                        <span class="fa"></span>
+                    </th>
+                    <th class="sort-th">
+                        Participant-1
+                    </th>
+                    <th class="sort-th">
+                        Participant-2
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (groups.Count == 0)
+                {
+                    <tr>
+                        <td colspan="3">
+                            No Records to display
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    foreach (GroupDto g in groups)
+                    {
+                        <tr>
+                            <td>@g.Name</td>
+                            <td>@g.Participant1</td>
+                            <td>@g.Participant2</td>
+                        </tr>
+                    }
+                }
 
-<table class="table table-bordered table-hover">
-    <thead>
-        <tr>
-            <th class="sort-th">
-                Name
-                <span class="fa"></span>
-            </th>
-            <th>Action</th>
-        </tr>
-    </thead>
-    <tbody>
-        @if (TournamentState.TournamentDto.Groups.Count == 0)
-        {
-            <tr>
-                <td colspan="3">
-                    No Records to display
-                </td>
-            </tr>
-        }
-        else
-        {
-            foreach (GroupDto g in TournamentState.TournamentDto.Groups)
-            {
-    <tr>
-        <td>@g.Name</td>
-        <td>@g.Participant1</td>
-        <td>@g.Participant2</td>
-
-        <td>
-            <a class="btn btn-success" @onclick="NavigateToMatch">Start tournament</a>
-        </td>
-    </tr>
-            }
-        }
-
-    </tbody>
-</table>
-
+            </tbody>
+        </table>
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="col-12">
+        <a class="btn btn-success" @onclick="NavigateToMatch">Start tournament</a>
+    </div>
+</div>
 @code {
     public class OrganiseTournamentForm
     {
@@ -176,21 +214,27 @@ else
         public List<ParticipantDto> Players { get; set; } = new List<ParticipantDto>();
     }
 
+    //[TypeConverter(typeof(List<ParticipantDto>))]
+    List<ParticipantDto> participants = new List<ParticipantDto>();
+    List<GroupDto> groups = new List<GroupDto>();
+
     OrganiseTournamentForm MyForm = new OrganiseTournamentForm();
 
     [Parameter]
-    public Guid tournamentId { get; set; }
+    public Guid TournamentId { get; set; }
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        AddRows();
+        participants = await PlayerService.GetPlayersByTournamentIdAsync(TournamentId);
+        groups = await GroupService.GetGroupsByTournamentIdAsync(TournamentId);
+        AddRow();
+        AddRow();
         AddGroup();
-        base.OnInitialized();
+        StateHasChanged();
     }
 
-    private void AddRows()
+    private void AddRow()
     {
-        MyForm.Players.Add(new ParticipantDto { Name = "" });
         MyForm.Players.Add(new ParticipantDto { Name = "" });
     }
 
@@ -201,29 +245,90 @@ else
 
     protected async Task CreatePlayerAsync()
     {
-        foreach (var player in MyForm.Players)
+        foreach (ParticipantDto player in MyForm.Players)
         {
-            player.Id = Guid.NewGuid();
-            player.TournamentId = tournamentId;
-            await PlayerService.CreatePlayerAsync(player);
+            if (player.Name == String.Empty)
+            {
+                string alert = await JsRuntime.InvokeAsync<string>("alert", "Fill in all fields before registering a player");
+                return;
+            }
+
+            if (await PlayerService.DoesPlayerExist(player.Name))
+            {
+                // show message.
+                string alert = await JsRuntime.InvokeAsync<string>("alert", "Player name " + player.Name + " already exist.");
+
+                // prevent form from submitting to form.
+                return;
+            }
         }
 
-        NavigationManager.NavigateTo($"/organiseTournament/{tournamentId}");
+        foreach (ParticipantDto player in MyForm.Players)
+        {
+            player.Id = Guid.NewGuid();
+            player.TournamentId = TournamentId;
+            await PlayerService.CreatePlayerAsync(player);
+            participants.Add(player);
+        }
+        MyForm.Players.Clear();
+        AddRow();
+        NavigationManager.NavigateTo($"/organiseTournament/{TournamentId}");
     }
 
     protected async Task CreateGroupAsync()
     {
-        //TODO: Assign players to group-participants.
-        // Participant1 & Participant2 must be filled.
+        foreach (GroupDto group in MyForm.Groups)
+        {
+            if (group.Name == String.Empty || group.Participant1 == String.Empty || group.Participant2 == String.Empty)
+            {
+                string alert = await JsRuntime.InvokeAsync<string>("alert", "Fill in all fields before registering a group");
+                return;
+            }
+
+            if (await GroupService.DoesGroupExist(group.Name))
+            {
+                // show message.
+                string alert = await JsRuntime.InvokeAsync<string>("alert", "Group name " + group.Name + " already exist.");
+
+                // prevent form from submitting to form.
+                return;
+            }
+
+            if (await GroupService.DoesGroupExist(group.Participant1))
+            {
+                // show message.
+                string alert = await JsRuntime.InvokeAsync<string>("alert", "Participant " + group.Participant1 + " is already in a group.");
+
+                // prevent form from submitting to form.
+                return;
+            }
+
+            if (await GroupService.DoesGroupExist(group.Participant2))
+            {
+                // show message.
+                string alert = await JsRuntime.InvokeAsync<string>("alert", "Participant " + group.Participant2 + " is already in a group.");
+
+                // prevent form from submitting to form.
+                return;
+            }
+        }
 
         foreach (var group in MyForm.Groups)
         {
             group.Id = Guid.NewGuid();
-            group.TournamentId = tournamentId;
+            group.TournamentId = TournamentId;
             await GroupService.CreateGroupAsync(group);
+            groups.Add(group);
         }
+        MyForm.Groups.Clear();
+        AddGroup();
+        NavigationManager.NavigateTo($"/organiseTournament/{TournamentId}");
+    }
 
-        NavigationManager.NavigateTo("/organiseTournament");
+    protected async Task DeletePlayerAsync(Guid id)
+    {
+        await PlayerService.DeletePlayerAsync(id);
+        participants = await PlayerService.GetPlayersByTournamentIdAsync(TournamentId);
     }
 
     void GoBack()

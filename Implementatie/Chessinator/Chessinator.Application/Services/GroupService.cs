@@ -41,6 +41,11 @@ namespace Chessinator.Application.Services
             return await _groupRepository.DeleteGroupAsync(groupGuid);
         }
 
+        public async Task<bool> DoesGroupExist(string name)
+        {
+            return await _groupRepository.DoesGroupExist(name);
+        }
+
         public async Task<List<GroupDto>> GetGroupsByTournamentIdAsync(Guid tournamentGuid)
         {
             List<Group> groups = await _groupRepository.GetGroupsByTournamentIdAsync(tournamentGuid);

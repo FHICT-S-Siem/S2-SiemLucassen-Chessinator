@@ -35,7 +35,6 @@ namespace Chessinator.Persistence.Repositories
             _chessinatorDbContext.Tournaments.Remove(trackedTournament);
             int rowsChanged = await _chessinatorDbContext.SaveChangesAsync();
             return rowsChanged > 0;
-
         }
         public async Task<Tournament> GetTournamentByIdAsync(Guid tournamentId)
         {

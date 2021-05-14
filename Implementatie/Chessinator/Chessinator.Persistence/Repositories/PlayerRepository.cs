@@ -27,9 +27,18 @@ namespace Chessinator.Persistence.Repositories
             return trackedPlayer.Entity;
         }
 
-        public Task<bool> DeletePlayerAsync(Guid playerGuid)
+        public async Task<bool> DeletePlayerAsync(Guid id)
         {
-            throw new NotImplementedException();
+            Player trackedPlayer = await _chessinatorDbContext.Players.FindAsync(id);
+            _chessinatorDbContext.Players.Remove(trackedPlayer);
+            int rowsChanged = await _chessinatorDbContext.SaveChangesAsync();
+            return rowsChanged > 0;
+        }
+
+        public async Task<bool> DoesPlayerExist(string name)
+        {
+            // Checks if any player name already exists. returns true if the name exists, else false
+            return await _chessinatorDbContext.Players.AnyAsync(p => p.Name == name);
         }
 
         public async Task<Player> GetPlayerByIdAsync(Guid Id)
@@ -39,8 +48,7 @@ namespace Chessinator.Persistence.Repositories
 
         public async Task<List<Player>> GetPlayersByTournamentIdAsync(Guid tournamentId)
         {
-            return await _chessinatorDbContext.Players.Where(t => t.TournamentId == tournamentId).ToListAsync();
-
+            return await _chessinatorDbContext.Players.Where(p => p.TournamentId == tournamentId).ToListAsync();
         }
 
         public Task<Player> UpdatePlayerAsync(Player player)
