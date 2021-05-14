@@ -11,7 +11,6 @@ namespace Chessinator.Presentation.States
         public TournamentDto TournamentDto { get; set; }
 
         public event Action OnChange;
-
         private void NotifyStateChanged() => OnChange?.Invoke();
     }
 }

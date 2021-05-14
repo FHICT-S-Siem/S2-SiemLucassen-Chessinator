@@ -14,5 +14,6 @@ namespace Chessinator.Application.Dtos
         public string Time { get; set; }
         public DateTime DateTime { get; set; }
         public List<GroupDto> Groups { get; set; } = new List<GroupDto>();
+        public List<ParticipantDto> Participants { get; set; } = new List<ParticipantDto>();
     }
 }

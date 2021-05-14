@@ -37,10 +37,9 @@ namespace Chessinator.Persistence.Repositories
             return await _chessinatorDbContext.Players.FindAsync(Id);
         }
 
-        public Task<List<Player>> GetPlayersByTournamentIdAsync(Guid tournamentId)
+        public async Task<List<Player>> GetPlayersByTournamentIdAsync(Guid tournamentId)
         {
-            throw new NotImplementedException();
-            //return await _chessinatorDbContext.Players.Where(t => t.TournamentId == tournamentId).ToListAsync();
+            return await _chessinatorDbContext.Players.Where(t => t.TournamentId == tournamentId).ToListAsync();
 
         }
 

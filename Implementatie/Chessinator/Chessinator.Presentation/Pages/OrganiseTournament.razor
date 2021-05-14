@@ -35,7 +35,43 @@
         </div>
         <div class="col-md-4">
             <!-- TODO: get all players -->
+            @if (TournamentState.TournamentDto.Participants == null)
+            {
+                <p><em>Loading...</em></p>
+            }
+            else
+            {
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="sort-th">
+                                Name
+                                <span class="fa"></span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (TournamentState.TournamentDto.Participants.Count == 0)
+                        {
+                            <tr>
+                                <td colspan="3">
+                                    No Records to display
+                                </td>
+                            </tr>
+                        }
+                        else
+                        {
+                            foreach (ParticipantDto p in TournamentState.TournamentDto.Participants)
+                            {
+                                <tr>
+                                    <td>@p.Name</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
 
+            }
         </div>
     </div>
     <br>
@@ -168,6 +204,7 @@ else
         foreach (var player in MyForm.Players)
         {
             player.Id = Guid.NewGuid();
+            player.TournamentId = tournamentId;
             await PlayerService.CreatePlayerAsync(player);
         }
 
