@@ -88,3 +88,19 @@ In het feedback gesprek kwam terug dat ik nog wat foutjes had in mijn database o
 Voor de implementatie ben ik begonnen met het schrijven van de backend voor de login met cryptografie, maar heb het nog niet op de UI geïmplementeerd omdat ik destijds nog niet voldoende afwist van de blazor UI. Hierna heb ik een template gevonden genaamd Blazor-CRUD, waarmee ik heel mijn tournament backend gemakkelijk op de UI kon presenteren. Ik heb voor het omzetten van entiteiten naar dto's Automapper gebruikt wat ik ook kreeg aangeraden in een van de lessen van Jason Taylor. Ik heb Entity Framework Code first gebruikt omdat ik zodanig mijn Properties met de juiste data constraints via een migration naar de database kan sturen. Ook is EF heel simpel te gebruiken voor het maken van CRUD commands.
 
 Ik heb in het algoritmiek opdracht circustrein mijn laatste functie afgemaakt en unittesten hierop uitgevoerd. Ik ben nog niet zeker over de lange namen die ik voor de testen gebruikt heb.
+
+## Sprint 4
+
+In de vierde sprint heb ik vooral aan mijn implementatie gewerkt wat betrekking heeft tot:
+
+Implementatie
+- CRUD Groups & Players + Error afhandeling
+- Custom authenticationstate & Sessionstorage toegevoegd
+- Database aangepast (relaties toegevoegd)
+
+Graag zou ik feedback willen op mijn implentatie van de CRUD in de frontend.
+
+Ik ben deze sprint begonnen door session storage en custom authenticationstate toe te voegen waardor ik de UserID kan opslaan, zodat wanneer ik bijvoorbeeld de pagina herlaad met een ingelogde user, de user nog steeds gevalideerd is. 
+Ook heb ik goed moeten nadenken hoe ik mijn players en groups moest toevoegen, omdat er vaak validatieschecks bij kwam kijken. Ik heb een aantal wijzigingen gemaakt in de database omdat er een paar relaties nog niet goed stonden. 
+ 
+Nu ik mijn players en groups kan toevoegen kan ik in de volgende sprint me vol gaan focussen op het "Starten" van een tournament, waarin groepen verdeeld worden en de winnaar tegen een andere winnaar speelt. Ik zal wel rekening moeten houden met hoeveel tijd ik nodig heb om de andere tournament-types te implementeren.
