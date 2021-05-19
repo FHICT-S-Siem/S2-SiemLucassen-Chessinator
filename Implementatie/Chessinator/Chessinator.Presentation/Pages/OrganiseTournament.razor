@@ -54,7 +54,6 @@
                 </ul>
                 <button type="button" class="btn btn-primary" @onclick="CreatePlayerAsync">Save</button>
             </EditForm>
-
         </div>
         <div class="col-md-6">
             @if (participants == null)
@@ -174,6 +173,9 @@ else
                     <th class="sort-th">
                         Participant-2
                     </th>
+                    <th class="sort-th">
+                        Action
+                    </th>
                 </tr>
             </thead>
             <tbody>
@@ -193,6 +195,9 @@ else
                             <td>@g.Name</td>
                             <td>@g.Participant1</td>
                             <td>@g.Participant2</td>
+                            <td>                            
+                                <a class="btn btn-danger" @onclick="() => DeleteGroupAsync(g.Id)">Delete</a>
+                            </td>
                         </tr>
                     }
                 }
@@ -249,14 +254,14 @@ else
         {
             if (player.Name == String.Empty)
             {
-                string alert = await JsRuntime.InvokeAsync<string>("alert", "Fill in all fields before registering a player");
+                var alert = await JsRuntime.InvokeAsync<string>("alert", "Fill in all fields before registering a player");
                 return;
             }
 
             if (await PlayerService.DoesPlayerExist(player.Name))
             {
                 // show message.
-                string alert = await JsRuntime.InvokeAsync<string>("alert", "Player name " + player.Name + " already exist.");
+                var alert = await JsRuntime.InvokeAsync<string>("alert", "Player name " + player.Name + " already exist.");
 
                 // prevent form from submitting to form.
                 return;
@@ -329,6 +334,12 @@ else
     {
         await PlayerService.DeletePlayerAsync(id);
         participants = await PlayerService.GetPlayersByTournamentIdAsync(TournamentId);
+    }
+
+    protected async Task DeleteGroupAsync(Guid id)
+    {
+        await GroupService.DeleteGroupAsync(id);
+        groups = await GroupService.GetGroupsByTournamentIdAsync(TournamentId);
     }
 
     void GoBack()

@@ -65,11 +65,7 @@ namespace Chessinator.Application.Services
         public async Task<TournamentDto> GetTournamentByIdAsync(Guid tournamentId)
         {
             Tournament tournament = await _tournamentRepository.GetTournamentByIdAsync(tournamentId);
-            TournamentDto tournamentDto = new TournamentDto()
-            {
-                Id = tournament.Id
-            };
-            return tournamentDto;
+            return _mapper.Map<TournamentDto>(tournament);
         }
 
         public async Task<bool> DeleteTournamentAsync(Guid tournamentId)
