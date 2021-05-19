@@ -26,6 +26,7 @@ namespace Chessinator.Tests
             services.AddAutoMapper(typeof(Startup));
             services.AddOptions();
             
+            //Creates Temporary database in memory for testing.
             services.AddDbContext<ChessinatorDbContext>(options => options.UseInMemoryDatabase(databaseName: "TestDb"));
             services.AddLogging(p => p.AddConsole());
             services.AddScoped<IPasswordHasher, PasswordHasher>();
