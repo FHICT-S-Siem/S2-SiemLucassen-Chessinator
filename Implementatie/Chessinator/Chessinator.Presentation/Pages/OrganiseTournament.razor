@@ -118,17 +118,19 @@
                         <li style="list-style: none">
                             <input for="Name" placeholder="Group name" class="form-control" @bind-value="@group.Name"/>
 
-                            <InputSelect id="participants" class="form-group"  @bind-Value="@group.Participant1" >
+                            <InputSelect id="participants" class="form-group" @bind-Value="@group.Participant1">
+                                <option>Select Player...</option>
                                 @foreach (ParticipantDto participant in participants)
                                 {
-                                    <option title="Participant-1" value="@participant.Name" selected="selected">@participant.Name</option>
+                                    <option title="Participant-1" value="@participant.Name">@participant.Name</option>
                                 }
                             </InputSelect>
-                            <InputSelect id="participants" class="form-group" @bind-Value="@group.Participant2" >
+                            <InputSelect id="participants" class="form-group" @bind-Value="@group.Participant2">
+                                <option>Select Player...</option>
                                 @foreach (ParticipantDto participant in participants)
-                                {
-                                    <option title="Participant-2" value="@participant.Name" selected="selected">@participant.Name</option>
-                                }
+                                        {
+                                    <option title="Participant-2" value="@participant.Name">@participant.Name</option>
+                                        }
                             </InputSelect>
                         </li>
                     }

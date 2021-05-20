@@ -1,11 +1,10 @@
 ﻿using Chessinator.Application.Dtos;
 using Chessinator.Application.Interfaces;
+using Chessinator.Domain.Entities;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using Chessinator.Domain.Entities;
 
 namespace Chessinator.Tests
 {
@@ -33,7 +32,6 @@ namespace Chessinator.Tests
             };
             await _userService.CreateUserAsync(user);
             UserId = user.Id;
-            //TournamentId = tournament.Id;
         }
 
         [TestMethod]
