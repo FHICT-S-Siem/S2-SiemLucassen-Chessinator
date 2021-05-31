@@ -11,9 +11,9 @@ namespace Chessinator.Tests
     [TestClass]
     public class TournamentUnitTests : TestBase
     {
-        #region fields
+        #region Fields
         private ITournamentService _tournamentService;
-        private IUserRepository _userService;
+        private IUserRepository _userRepository;
 
         public Guid UserId { get; set; }
         //public Guid TournamentId { get; set; }
@@ -24,13 +24,14 @@ namespace Chessinator.Tests
         {
             InitializeServiceProvider();
             _tournamentService = ServiceProvider.GetService<ITournamentService>();
-            _userService = ServiceProvider.GetService<IUserRepository>();
-
+            _userRepository = ServiceProvider.GetService<IUserRepository>();
+            
+            //Initialize test-user.
             User user = new User()
             {
                 Id = Guid.NewGuid()
             };
-            await _userService.CreateUserAsync(user);
+            await _userRepository.CreateUserAsync(user);
             UserId = user.Id;
         }
 
@@ -103,9 +104,9 @@ namespace Chessinator.Tests
                 Time = "Rapid",
                 DateTime = DateTime.Now
             };
+            await _tournamentService.CreateTournamentAsync(dto);
 
             //Act
-            await _tournamentService.CreateTournamentAsync(dto);
             await _tournamentService.UpdateTournamentAsync(dto2);
 
             //Assert
@@ -128,6 +129,7 @@ namespace Chessinator.Tests
             };
             await _tournamentService.CreateTournamentAsync(dto);
             Console.WriteLine(await _tournamentService.GetTournamentByIdAsync(dto.Id)); 
+
             //Act
             await _tournamentService.DeleteTournamentAsync(dto.Id);
 

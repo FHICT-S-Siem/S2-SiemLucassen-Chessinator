@@ -7,10 +7,6 @@ using Chessinator.Presentation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using System;
-using System.IO;
-using AutoMapper;
-using Microsoft.Extensions.Options;
 
 namespace Chessinator.Tests
 {
@@ -28,7 +24,7 @@ namespace Chessinator.Tests
             
             //Creates Temporary database in memory for testing.
             services.AddDbContext<ChessinatorDbContext>(options => options.UseInMemoryDatabase(databaseName: "TestDb"));
-            services.AddLogging(p => p.AddConsole());
+            services.AddLogging(loginBuilder => loginBuilder.AddConsole());
             services.AddScoped<IPasswordHasher, PasswordHasher>();
             services.AddScoped<ISaltGenerator, RandomSaltGenerator>();
 
@@ -43,8 +39,8 @@ namespace Chessinator.Tests
             services.AddScoped<IUserService, UserService>();
 
             ServiceProvider = services.BuildServiceProvider();
-            ChessinatorDbContext d = ServiceProvider.GetService<ChessinatorDbContext>();
-            d.Database.EnsureCreated();
+            ChessinatorDbContext dbContext = ServiceProvider.GetService<ChessinatorDbContext>();
+            dbContext.Database.EnsureCreated();
         }
     }
 }
