@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Chessinator.Application.Dtos;
 using Chessinator.Application.Interfaces;
 using Chessinator.Domain.Entities;
+using Chessinator.Domain.Exceptions;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Chessinator.Application.Services
 {
@@ -25,7 +25,7 @@ namespace Chessinator.Application.Services
             Player createdPlayer = await _playerRepository.CreatePlayerAsync(player);
 
             if (createdPlayer == null)
-                throw new Exception("Failed to create player");
+                throw new ChessinatorException("Failed to create player");
             return _mapper.Map<ParticipantDto>(createdPlayer);
         }
 

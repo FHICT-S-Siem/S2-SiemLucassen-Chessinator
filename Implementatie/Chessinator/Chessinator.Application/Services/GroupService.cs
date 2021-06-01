@@ -7,6 +7,7 @@ using AutoMapper;
 using Chessinator.Application.Dtos;
 using Chessinator.Application.Interfaces;
 using Chessinator.Domain.Entities;
+using Chessinator.Domain.Exceptions;
 
 namespace Chessinator.Application.Services
 {
@@ -31,9 +32,8 @@ namespace Chessinator.Application.Services
             Group createdGroup = await _groupRepository.CreateGroupAsync(group);
 
             if (createdGroup == null)
-                throw new Exception("Failed to create group");
+                throw new ChessinatorException("Failed to create group");
             return _mapper.Map<GroupDto>(createdGroup);
-
         }
 
         public async Task<bool> DeleteGroupAsync(Guid groupGuid)
@@ -59,10 +59,8 @@ namespace Chessinator.Application.Services
             Group updatedGroup = await _groupRepository.UpdateGroupAsync(group);
 
             if (updatedGroup == null)
-                throw new Exception("Failed to update group");
-
+                throw new ChessinatorException("Failed to update group");
             return _mapper.Map<GroupDto>(updatedGroup);
-
         }
     }
 }

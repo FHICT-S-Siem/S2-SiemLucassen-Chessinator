@@ -5,6 +5,7 @@ using Chessinator.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Chessinator.Domain.Exceptions;
 
 namespace Chessinator.Application.Services
 {
@@ -36,9 +37,9 @@ namespace Chessinator.Application.Services
             trackedUser.Tournaments.Add(tournament);
 
             Tournament createdTournament = await _tournamentRepository.CreateTournamentAsync(tournament);
-
+            
             if (createdTournament == null)
-                throw new Exception("Failed to create tournament");
+                throw new ChessinatorException("Failed to create tournament");
 
             return _mapper.Map<TournamentDto>(createdTournament);
         }
@@ -79,7 +80,7 @@ namespace Chessinator.Application.Services
             Tournament updatedTournament = await _tournamentRepository.UpdateTournamentAsync(tournament);
 
             if (updatedTournament == null)
-                throw new Exception("Failed to update tournament");
+                throw new ChessinatorException("Failed to update tournament");
 
             return _mapper.Map<TournamentDto>(updatedTournament);
         }
