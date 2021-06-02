@@ -35,7 +35,7 @@
 </div>
 <br />
 
-@if (tournaments == null)
+@if (_tournaments == null)
 {
     <p><em>Loading...</em></p>
 }
@@ -68,7 +68,7 @@ else
             </tr>
         </thead>
         <tbody>
-            @if (tournaments.Count == 0)
+            @if (_tournaments.Count == 0)
             {
                 <tr>
                     <td colspan="3">
@@ -78,7 +78,7 @@ else
             }
             else
             {
-                foreach (TournamentDto t in tournaments)
+                foreach (TournamentDto t in _tournaments)
                 {
                     <tr>
                         <td>@t.Name</td>
@@ -104,7 +104,7 @@ else
 @code {
 
 
-    List<TournamentDto> tournaments;
+    List<TournamentDto> _tournaments;
 
     private void NavigateToOrganiseTournament(TournamentDto tournamentDto)
     {
@@ -114,14 +114,14 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        Guid userId = await sessionStorage.GetItemAsync<Guid>("userguid");
-        tournaments = await TournamentService.GetTournamentsByUserIdAsync(userId);
+        Guid userId = await sessionStorage.GetItemAsync<Guid>("userGuid");
+        _tournaments = await TournamentService.GetTournamentsByUserIdAsync(userId);
     }
 
     protected async Task DeleteTournamentAsync(Guid id)
     {
         await TournamentService.DeleteTournamentAsync(id);
-        Guid userId = await sessionStorage.GetItemAsync<Guid>("userguid");
-        tournaments = await TournamentService.GetTournamentsByUserIdAsync(userId);
+        Guid userId = await sessionStorage.GetItemAsync<Guid>("userGuid");
+        _tournaments = await TournamentService.GetTournamentsByUserIdAsync(userId);
     }
 }

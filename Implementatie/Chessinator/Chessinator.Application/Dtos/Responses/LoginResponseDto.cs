@@ -8,6 +8,6 @@ namespace Chessinator.Application.Dtos.Responses
 {
     public class LoginResponseDto : ResponseDto<UserDto>
     {
-
+        public string Message { get; set; }
     }
 }

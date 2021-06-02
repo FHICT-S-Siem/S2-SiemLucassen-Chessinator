@@ -4,7 +4,9 @@ using Chessinator.Application.Dtos.Responses;
 using Chessinator.Application.Interfaces;
 using Chessinator.Domain.Entities;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using Chessinator.Domain.Exceptions;
 
 namespace Chessinator.Application.Services
 {
@@ -28,6 +30,23 @@ namespace Chessinator.Application.Services
             _mapper = mapper;
         }
 
+        public async Task<bool> DeleteUserAsync(Guid userGuid)
+        {
+            return await _userRepository.DeleteUserAsync(userGuid);
+        }
+
+        public async Task<List<UserDto>> GetAllUsersAsync()
+        {
+            List<User> users = await _userRepository.GetAllUsersAsync();
+            return _mapper.Map<List<UserDto>>(users);
+        }
+
+        public async Task<UserDto> GetUserByUserIdAsync(Guid userGuid)
+        {
+            User user = await _userRepository.GetUserByIdAsync(userGuid);
+            return _mapper.Map<UserDto>(user);
+        }
+
         public async Task<LoginResponseDto> LoginAsync(LoginDto loginDto)
         {
             // Does a user exist with the given credentials?
@@ -39,17 +58,24 @@ namespace Chessinator.Application.Services
                     Success = false
                 };
             }
-            if (_hasher.VerifyHash(user.Secret, user.Extra, loginDto.Password))
+
+            if (user.UserStatus == "Active")
+            {
+                if (_hasher.VerifyHash(user.Secret, user.Extra, loginDto.Password))
+                {
+                    return new LoginResponseDto()
+                    {
+                        Success = true,
+                        Data = _mapper.Map<UserDto>(user)
+                    };
+                }
+            }
+            else if (user.UserStatus == "Suspended")
             {
                 return new LoginResponseDto()
                 {
-                    Success = true,
-                    Data = new UserDto()
-                    {
-                        Id = user.Id,
-                        Username = user.Username,
-                        Email = user.Email
-                    }
+                    Success = false,
+                    Message = "You have been suspended from Chessinator."
                 };
             }
 
@@ -86,6 +112,39 @@ namespace Chessinator.Application.Services
             {
                 Success = success
             };
+        }
+
+        public async Task<UserDto> SuspendUserAsync(UserDto userDto)
+        {
+            User user = _mapper.Map<User>(userDto);
+            User updatedUser = await _userRepository.SuspendUserAsync(user);
+
+            if (updatedUser == null)
+                throw new ChessinatorException("Failed to suspend user");
+
+            return _mapper.Map<UserDto>(updatedUser);
+        }
+
+        public async Task<UserDto> UnsuspendUserAsync(UserDto userDto)
+        {
+            User user = _mapper.Map<User>(userDto);
+            User updatedUser = await _userRepository.UnsuspendUserAsync(user);
+
+            if (updatedUser == null)
+                throw new ChessinatorException("Failed to suspend user");
+
+            return _mapper.Map<UserDto>(updatedUser);
+        }
+
+        public async Task<UserDto> UpdateUserAsync(UserDto userDto)
+        {
+            User user = _mapper.Map<User>(userDto);
+            User updatedUser = await _userRepository.UpdateUserAsync(user);
+
+            if (updatedUser == null)
+                throw new ChessinatorException("Failed to update user");
+
+            return _mapper.Map<UserDto>(updatedUser);
         }
     }
 }

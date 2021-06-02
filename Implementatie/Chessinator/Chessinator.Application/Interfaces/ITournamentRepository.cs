@@ -31,7 +31,7 @@ namespace Chessinator.Application.Interfaces
 
 
         /// <summary>
-        /// Deletes a tournament with the given id.
+        /// Deletes a tournament with the given tournament guid.
         /// </summary>
         /// <param name="tournamentId">The tournament id.</param>
         /// <returns>Returns a bool indicating whether the tournament was deleted.</returns>

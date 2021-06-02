@@ -13,7 +13,7 @@
                 <label for="Name" class="control-label">Name</label>
                 <input for="Name" class="form-control" @bind-value="@tournament.Name" />
 
-                <!--TODO: Maak comboboxes ipv text velden. -->
+                <!--TODO: Maak combobox ipv text velden. -->
                 <label for="Type" class="control-label">Type</label>
                 <input for="Type" class="form-control" @bind-value="@tournament.Type" />
                 <label for="Seeding" class="control-label">Seeding</label>
@@ -37,7 +37,7 @@
     protected async Task CreateTournamentAsync()
     {
         tournament.Id = Guid.NewGuid();
-        tournament.UserId = await sessionStorage.GetItemAsync<Guid>("userguid");
+        tournament.UserId = await sessionStorage.GetItemAsync<Guid>("userGuid");
         await TournamentService.CreateTournamentAsync(tournament);
         NavigationManager.NavigateTo("/fetchTournament");
     }

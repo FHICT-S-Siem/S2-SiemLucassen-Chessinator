@@ -2,13 +2,14 @@
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using Blazored.SessionStorage;
+using Chessinator.Application.Dtos;
 using Microsoft.AspNetCore.Components.Authorization;
 
 namespace Chessinator.Presentation.Authorization
 {
     public class CustomAuthenticationStateProvider : AuthenticationStateProvider
     {
-        private ISessionStorageService _sessionStorageService;
+        private readonly ISessionStorageService _sessionStorageService;
         public CustomAuthenticationStateProvider(ISessionStorageService sessionStorage)
         {
             _sessionStorageService = sessionStorage;
@@ -21,7 +22,7 @@ namespace Chessinator.Presentation.Authorization
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
         {
             var username = await _sessionStorageService.GetItemAsync<string>("username");
-            var userGuid = await _sessionStorageService.GetItemAsync<string>("userguid");
+            var userGuid = await _sessionStorageService.GetItemAsync<string>("userGuid");
 
             ClaimsIdentity identity;
             if (username != null)
@@ -42,11 +43,13 @@ namespace Chessinator.Presentation.Authorization
             return await Task.FromResult(new AuthenticationState(user));
         }
 
-        public void MarkUserAsAuthenticated(string username)
+        public void MarkUserAsAuthenticated(UserDto userDto)
         {
             var identity = new ClaimsIdentity(new[]
             {
-                new Claim(ClaimTypes.Name, username)
+                new Claim(ClaimTypes.Name, userDto.Username),
+                new Claim(ClaimTypes.Role, userDto.Role)
+
             }, "apiauth_type");
             
             var user = new ClaimsPrincipal(identity);

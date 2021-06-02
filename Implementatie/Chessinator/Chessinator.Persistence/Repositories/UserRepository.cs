@@ -4,6 +4,7 @@ using Chessinator.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -41,6 +42,65 @@ namespace Chessinator.Persistence.Repositories
         {
             return await _dbContext.Users.AnyAsync(user => user.Username == username);
             
+        }
+
+        public async Task<List<User>> GetAllUsersAsync()
+        {
+            return await _dbContext.Users.ToListAsync();
+
+        }
+
+        public async Task<User> UpdateUserAsync(User user)
+        {
+            User trackedUser = await _dbContext.Users.FindAsync(user.Id);
+
+            if (trackedUser != null)
+            {
+                trackedUser.Username = user.Username;
+                trackedUser.Email = user.Email;
+                trackedUser.Role = user.Role;
+                trackedUser.Country = user.Country;
+                trackedUser.Secret = user.Secret;
+                trackedUser.UserStatus = user.UserStatus;
+                trackedUser.Tournaments = user.Tournaments;
+
+                await _dbContext.SaveChangesAsync();
+            }
+
+            return trackedUser;
+        }
+        public async Task<bool> DeleteUserAsync(Guid userGuid)
+        {
+            User trackedUser = await _dbContext.Users.FindAsync(userGuid);
+            _dbContext.Users.Remove(trackedUser);
+            int rowsChanged = await _dbContext.SaveChangesAsync();
+            return rowsChanged > 0;
+        }
+        public async Task<User> SuspendUserAsync(User user)
+        {
+            User trackedUser = await _dbContext.Users.FindAsync(user.Id);
+
+            if (trackedUser != null)
+            {
+                trackedUser.UserStatus = "Suspended";
+
+                await _dbContext.SaveChangesAsync();
+            }
+
+            return trackedUser;
+        }
+        public async Task<User> UnsuspendUserAsync(User user)
+        {
+            User trackedUser = await _dbContext.Users.FindAsync(user.Id);
+
+            if (trackedUser != null)
+            {
+                trackedUser.UserStatus = "Active";
+
+                await _dbContext.SaveChangesAsync();
+            }
+
+            return trackedUser;
         }
     }
 }

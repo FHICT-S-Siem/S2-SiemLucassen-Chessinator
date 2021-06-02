@@ -1,0 +1,195 @@
+﻿@page "/AdminPanel"
+@using System.Threading
+@using System.Runtime.InteropServices
+@inject NavigationManager NavigationManager
+@inject Blazored.SessionStorage.ISessionStorageService sessionStorage
+@inject ITournamentService TournamentService
+@inject IUserService UserService
+
+<style>
+    button{
+        margin-right: 10px;
+    }
+
+    .btn{
+        color: white !important;
+    }
+</style>
+<div class="card">
+    <div class="row">
+        <div class="col-12">
+            @if (_users == null)
+            {
+                <p><em>Loading...</em></p>
+            }
+            else
+            {
+                <table class="table table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th class="sort-th">
+                            Name
+                            <span class="fa"></span>
+                        </th>
+                        <th class="sort-th">
+                            Tournament count
+                            <span class="fa"></span>
+                        </th>
+                        <th class="sort-th">
+                            Action
+                            <span class="fa"></span>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @if (_users.Count == 0)
+                    {
+                        <tr>
+                            <td colspan="3">
+                                No Records to display
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        foreach (UserDto u in _users)
+                        {
+                            <tr>
+                                <td>@u.Username</td>
+                                <td>@u.Tournaments.Count()</td>
+
+                                <td>
+                                    <a class="btn btn-success" @onclick="() => FetchProfile(u.Id)">See profile</a>
+                                </td>
+                            </tr>
+                        }
+                    }
+
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+</div>
+<br/>
+<div class="card">
+    <div class="row">
+        <div class="col-12">
+            <h4>@_selectedUser.Username , @_selectedUser.Email , @_selectedUser.Role , @_selectedUser.UserStatus</h4>
+
+            @if (_selectedUser.UserStatus == "Suspended")
+            {
+                <button type="button" class="btn btn-primary" @onclick="UnsuspendUser">Unsuspend</button>
+            }
+
+            else
+            {
+                <button type="button" class="btn btn-primary" @onclick="SuspendUser">Suspend</button>
+            }
+
+            <button type="button" class="btn btn-danger" @onclick="BanUser">Ban</button>
+           
+                
+            
+
+            
+            
+
+            @if (_selectedUser.Tournaments == null)
+            {
+                <p><em>Choose a profile</em></p>
+            }
+            else
+            {
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th class="sort-th">
+                                Name
+                                <span class="fa"></span>
+                            </th>
+                            <th class="sort-th">
+                                Created at
+                                <span class="fa"></span>
+                            </th>
+                            <th class="sort-th">
+                                Action
+                                <span class="fa"></span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (_selectedUser.Tournaments.Count == 0)
+                        {
+                            <tr>
+                                <td colspan="3">
+                                    No Records to display
+                                </td>
+                            </tr>
+                        }
+                        else
+                        {
+                            foreach (TournamentDto t in _selectedUser.Tournaments)
+                            {
+                                <tr>
+                                    <td>@t.Name</td>
+                                    <td>@t.DateTime</td>
+
+                                    <td>
+                                        <!--Delete action-->
+                                        <a class="btn btn-danger" @onclick="() => DeleteTournamentAsync(t.Id)">Delete</a>
+
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+</div>
+
+
+@code {
+    List<UserDto> _users = new List<UserDto>();
+    UserDto _selectedUser = new UserDto();
+
+    protected async Task SuspendUser()
+    {
+        await UserService.SuspendUserAsync(_selectedUser);
+        _selectedUser = await UserService.GetUserByUserIdAsync(_selectedUser.Id);
+    }
+
+    protected async Task UnsuspendUser()
+    {
+        await UserService.UnsuspendUserAsync(_selectedUser);
+        _selectedUser = await UserService.GetUserByUserIdAsync(_selectedUser.Id);
+    }
+
+    private async Task BanUser()
+    {
+        await UserService.DeleteUserAsync(_selectedUser.Id);
+    }
+
+    protected async Task FetchProfile(Guid userGuid)
+    {
+        // TODO: FetchProfile
+        // Tournaments are only loaded when all tournaments are fetched on the tournaments page.
+        _selectedUser = await UserService.GetUserByUserIdAsync(userGuid);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Guid userGuid = await sessionStorage.GetItemAsync<Guid>("userGuid");
+        _selectedUser = await UserService.GetUserByUserIdAsync(userGuid);
+        _users = await UserService.GetAllUsersAsync();
+    }
+
+    protected async Task DeleteTournamentAsync(Guid id)
+    {
+        await TournamentService.DeleteTournamentAsync(id);
+        _users = await UserService.GetAllUsersAsync();
+        _selectedUser = await UserService.GetUserByUserIdAsync(_selectedUser.Id);
+    }
+}

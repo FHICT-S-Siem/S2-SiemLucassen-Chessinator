@@ -2,6 +2,7 @@
 @using System.Security.Claims
 @using Chessinator.Application.Dtos.Responses
 @using Chessinator.Presentation.Authorization
+@using Microsoft.AspNetCore.Http
 
 
 @inject AuthenticationStateProvider AuthenticationStateProvider
@@ -15,6 +16,7 @@
     </div>
     <div>
         <h3 style="font-weight:bold; color:purple">Log in on Chessinator!</h3>
+        <h3>@Message</h3>
     </div>
     <div>
         <br />
@@ -39,7 +41,7 @@
 </EditForm>
 
 @code {
-
+    private string Message { get; set; }
     private LoginDto user;
     public string LoginMesssage { get; set; }
     ClaimsPrincipal claimsPrincipal;
@@ -58,28 +60,35 @@
             NavigationManager.NavigateTo("/index");
         }
         {
-            user.Username = "Testuser";
-            user.Password = "Test12!@";
+            user.Username = "Admin";
+            user.Password = "test";
         }
     }
 
     private async Task<bool> ValidateUser()
     {
         //assume that user is valid
-        //call an API
 
         LoginResponseDto response = await userService.LoginAsync(user);
 
+        
+
         if (response.Success)
         {
-            ((CustomAuthenticationStateProvider)AuthenticationStateProvider).MarkUserAsAuthenticated(response.Data.Username);
+            //response.Data = UserDto
+            ((CustomAuthenticationStateProvider)AuthenticationStateProvider).MarkUserAsAuthenticated(response.Data);
             await sessionStorage.SetItemAsync("username", response.Data.Username);
-            await sessionStorage.SetItemAsync("userguid", response.Data.Id);
+            await sessionStorage.SetItemAsync("userGuid", response.Data.Id);
             NavigationManager.NavigateTo("/index");
         }
+
         else
         {
             LoginMesssage = "Invalid username or password";
+            if (response.Message != String.Empty)
+            {
+                Message = response.Message;
+            }
         }
 
         return await Task.FromResult(true);
