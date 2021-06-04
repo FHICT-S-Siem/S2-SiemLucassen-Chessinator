@@ -7,7 +7,7 @@
 @inject IUserService UserService
 
 <style>
-    button{
+    button {
         margin-right: 10px;
     }
 
@@ -15,7 +15,7 @@
         margin-top: 10px;
     }
 
-    .btn{
+    .btn {
         color: white !important;
     }
 </style>
@@ -30,44 +30,49 @@
             {
                 <table class="table table-bordered table-hover">
                     <thead>
-                    <tr>
-                        <th class="sort-th">
-                            Name
-                            <span class="fa"></span>
-                        </th>
-                        <th class="sort-th">
-                            Tournament count
-                            <span class="fa"></span>
-                        </th>
-                        <th class="sort-th">
-                            Action
-                            <span class="fa"></span>
-                        </th>
-                    </tr>
+                        <tr>
+                            <th class="sort-th">
+                                Name
+                                <span class="fa"></span>
+                            </th>
+                            <th class="sort-th">
+                                Email
+                                <span class="fa"></span>
+                            </th>
+                            <th class="sort-th">
+                                Id
+                                <span class="fa"></span>
+                            </th>
+                            <th class="sort-th">
+                                Action
+                                <span class="fa"></span>
+                            </th>
+                        </tr>
                     </thead>
                     <tbody>
-                    @if (_users.Count == 0)
-                    {
-                        <tr>
-                            <td colspan="3">
-                                No Records to display
-                            </td>
-                        </tr>
-                    }
-                    else
-                    {
-                        foreach (UserDto u in _users)
+                        @if (_users.Count == 0)
                         {
                             <tr>
-                                <td>@u.Username</td>
-                                <td>@u.Tournaments.Count()</td>
-
-                                <td>
-                                    <a class="btn btn-success" @onclick="() => FetchProfile(u.Id)">See profile</a>
+                                <td colspan="3">
+                                    No Records to display
                                 </td>
                             </tr>
                         }
-                    }
+                        else
+                        {
+                            foreach (UserDto u in _users)
+                            {
+                                <tr>
+                                    <td>@u.Username</td>
+                                    <td>@u.Email</td>
+                                    <td>@u.Id</td>
+
+                                    <td>
+                                        <a class="btn btn-success" @onclick="() => FetchProfile(u.Id)">See profile</a>
+                                    </td>
+                                </tr>
+                            }
+                        }
 
                     </tbody>
                 </table>
@@ -75,7 +80,7 @@
         </div>
     </div>
 </div>
-<br/>
+<br />
 <div class="card">
     <div class="row">
         <div class="col-12">
@@ -117,7 +122,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @if (_selectedUser.Tournaments.Count == 0)
+                            @if (_selectedTournaments.Count == 0)
                             {
                                 <tr>
                                     <td colspan="3">
@@ -127,7 +132,7 @@
                             }
                             else
                             {
-                                foreach (TournamentDto t in _selectedUser.Tournaments)
+                                foreach (TournamentDto t in _selectedTournaments)
                                 {
                                     <tr>
                                         <td>@t.Name</td>
@@ -152,6 +157,8 @@
 
 @code {
     List<UserDto> _users = new List<UserDto>();
+    List<TournamentDto> _selectedTournaments;
+
     UserDto _selectedUser = new UserDto();
 
     protected async Task SuspendUser()
@@ -177,6 +184,10 @@
         // Tournaments are only loaded when all tournaments are fetched on the tournaments page.
         _selectedUser = await UserService.GetUserByUserIdAsync(userGuid);
 
+        // Get Tournaments by UserId
+        _selectedTournaments = await TournamentService.GetTournamentsByUserIdAsync(userGuid);
+
+
     }
 
     protected override async Task OnInitializedAsync()
@@ -184,9 +195,13 @@
         // Set current user in FetchProfile
         Guid userGuid = await sessionStorage.GetItemAsync<Guid>("userGuid");
         _selectedUser = await UserService.GetUserByUserIdAsync(userGuid);
+        _selectedTournaments = await TournamentService.GetTournamentsByUserIdAsync(userGuid);
+
 
         // Get all users
         _users = await UserService.GetAllUsersAsync();
+
+
     }
 
     protected async Task DeleteTournamentAsync(Guid id)
@@ -194,5 +209,6 @@
         await TournamentService.DeleteTournamentAsync(id);
         _users = await UserService.GetAllUsersAsync();
         _selectedUser = await UserService.GetUserByUserIdAsync(_selectedUser.Id);
+        _selectedTournaments = await TournamentService.GetTournamentsByUserIdAsync(_selectedUser.Id);
     }
 }
