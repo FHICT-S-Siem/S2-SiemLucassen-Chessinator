@@ -176,12 +176,16 @@
         // TODO: FetchProfile
         // Tournaments are only loaded when all tournaments are fetched on the tournaments page.
         _selectedUser = await UserService.GetUserByUserIdAsync(userGuid);
+
     }
 
     protected override async Task OnInitializedAsync()
     {
+        // Set current user in FetchProfile
         Guid userGuid = await sessionStorage.GetItemAsync<Guid>("userGuid");
         _selectedUser = await UserService.GetUserByUserIdAsync(userGuid);
+
+        // Get all users
         _users = await UserService.GetAllUsersAsync();
     }
 

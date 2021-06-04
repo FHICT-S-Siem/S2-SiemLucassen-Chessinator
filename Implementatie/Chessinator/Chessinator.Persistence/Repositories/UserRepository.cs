@@ -58,11 +58,11 @@ namespace Chessinator.Persistence.Repositories
             {
                 trackedUser.Username = user.Username;
                 trackedUser.Email = user.Email;
-                trackedUser.Role = user.Role;
                 trackedUser.Country = user.Country;
-                trackedUser.Secret = user.Secret;
-                trackedUser.UserStatus = user.UserStatus;
-                trackedUser.Tournaments = user.Tournaments;
+                //trackedUser.Role = user.Role;
+                //trackedUser.Secret = user.Secret;
+                //trackedUser.UserStatus = user.UserStatus;
+                //trackedUser.Tournaments = user.Tournaments;
 
                 await _dbContext.SaveChangesAsync();
             }

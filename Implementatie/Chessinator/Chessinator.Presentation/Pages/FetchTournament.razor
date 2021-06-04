@@ -1,6 +1,6 @@
 ﻿@page "/fetchTournament"
 @inject NavigationManager NavigationManager
-@inject Blazored.SessionStorage.ISessionStorageService sessionStorage
+@inject Blazored.SessionStorage.ISessionStorageService SessionStorage
 @inject ITournamentService TournamentService
 @inject States.TournamentState TournamentState
 
@@ -92,14 +92,14 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        Guid userId = await sessionStorage.GetItemAsync<Guid>("userGuid");
+        Guid userId = await SessionStorage.GetItemAsync<Guid>("userGuid");
         _tournaments = await TournamentService.GetTournamentsByUserIdAsync(userId);
     }
 
     protected async Task DeleteTournamentAsync(Guid id)
     {
         await TournamentService.DeleteTournamentAsync(id);
-        Guid userId = await sessionStorage.GetItemAsync<Guid>("userGuid");
+        Guid userId = await SessionStorage.GetItemAsync<Guid>("userGuid");
         _tournaments = await TournamentService.GetTournamentsByUserIdAsync(userId);
     }
 }

@@ -12,6 +12,6 @@ namespace Chessinator.Application.Dtos
         public string Country { get; set; }
         public string Role { get; set; }
         public string UserStatus { get; set; }
-        public List<TournamentDto> Tournaments { get; set; } = new List<TournamentDto>();
+        public List<TournamentDto> Tournaments { get; set; }
     }
 }

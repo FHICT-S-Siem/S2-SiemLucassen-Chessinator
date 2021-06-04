@@ -1,0 +1,64 @@
+﻿@page "/editProfile"
+@inject IUserService UserService
+@inject Blazored.SessionStorage.ISessionStorageService SessionStorage
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JsRuntime;
+
+<div class="row">
+    <div class="col-md-4">
+        <EditForm Model="_user">
+            <div class="form-group">
+                <input type="hidden" @bind-value="@_user.Id" />
+
+                <label for="Username" class="control-label">Name</label>
+                <input for="Username" class="form-control" @bind-value="@_user.Username" />
+                <br />
+                <label for="Email" class="control-label">Email</label>
+                <input for="Email" type="email" class="form-control" @bind-value="@_user.Email" />
+                <br />
+                <label for="Country" class="control-label">Country</label>
+                <input for="Country" class="form-control" @bind-value="@_user.Country" />
+                <br />
+            </div>
+
+            <div class="form-group">
+                <button type="button" class="btn btn-primary" @onclick="UpdateUser">Update profile</button>
+            </div>
+        </EditForm>
+    </div>
+
+</div>
+
+@code {
+
+    public Guid Id { get; set; }
+
+    UserDto _user = new UserDto();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Id = await SessionStorage.GetItemAsync<Guid>("userGuid");
+        _user = await UserService.GetUserByUserIdAsync(Id);
+    }
+
+    protected async Task UpdateUser()
+    {
+        Guid userId = await SessionStorage.GetItemAsync<Guid>("userGuid");
+
+        if (string.IsNullOrEmpty(_user.Username) || string.IsNullOrEmpty(_user.Email) || string.IsNullOrEmpty(_user.Country))
+        {
+            string alert = await JsRuntime.InvokeAsync<string>("alert", "Fill in all fields before editing your profile");
+            return;
+        }
+
+        try
+        {
+            await UserService.UpdateUserAsync(_user);
+            NavigationManager.NavigateTo("/editProfile");
+        }
+        catch (Exception e)
+        {
+            var alert = await JsRuntime.InvokeAsync<string>("alert", e.Message);
+        }
+    }
+}
