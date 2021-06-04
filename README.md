@@ -108,6 +108,27 @@ Graag zou ik feedback willen op mijn implentatie van de CRUD in de frontend.
 Ik ben deze sprint begonnen door session storage en custom authenticationstate toe te voegen waardor ik de UserID kan opslaan, zodat wanneer ik bijvoorbeeld de pagina herlaad met een ingelogde user, de user nog steeds gevalideerd is. 
 Ook heb ik goed moeten nadenken hoe ik mijn players en groups moest toevoegen, omdat er vaak validatieschecks bij kwam kijken. Ik heb een aantal wijzigingen gemaakt in de database omdat er een paar relaties nog niet goed stonden. 
  
-Nu ik mijn players en groups kan toevoegen kan ik in de volgende sprint me vol gaan focussen op het "Starten" van een tournament, waarin groepen verdeeld worden en de winnaar tegen een andere winnaar speelt. Ook zal ik de rolverdeling van admin moeten toevoegen. 
+Nu ik mijn players en groups kan toevoegen kan ik in de volgende sprint me gaan focussen op het "Starten" van een tournament, waarin groepen verdeeld worden en de winnaar tegen een andere winnaar speelt. Ook zal ik de rolverdeling van admin moeten toevoegen. 
 
 Ik zal wel rekening moeten houden met hoeveel tijd ik nodig heb om de andere tournament-types te implementeren.
+
+## Sprint 5
+
+In de vierde sprint heb ik vooral aan mijn implementatie gewerkt wat betrekking heeft tot:
+
+Implementatie
+- Unittests voor Tournaments & Users & Baseclass met tijdelijke database (InMemoryDatabase)
+- Exception handling Front-end, Back-end (In de services) & Eigen exception aangemaakt (ChessinatorExceptions)
+- Adminpaneel toegevoegd gekoppeld aan rol Admin
+  - Tijdelijk schorsen & verban user
+  - Delete tournamenten
+- Update userprofile toegevoegd
+- Front-end opgeknapt
+ 
+Graag zou ik feedback willen op mijn exception handling en unittests.
+Ik ben zelf redelijk nieuw in exception handling, vaak op het MBO gebruikte ik op de front-end een soort handling waardoor ik het nooit echt goed begrepen heb in de back-end.
+
+in deze sprint ben ik begonen met het aanmaken van de admin rol en daarna het aanmaken van het admin paneel. Op dit paneel krijgt de admin een overzicht van alle gebruikers en hun tournamenten aantal. De admin kan dan het profiel bekijken door op de knop te klikken 'See profile' en ziet dan informatie over tournamenten. Als de geselecteerde gebruiker bijvoorbeeld een ongebruikelijke naam heeft kan de admin de gebruiker schorsen of verbannen en de tournamenten verwijderen als het nodig is. Ik heb unit-tests gemaakt voor functies vanuit de Tournamenten en Users Services. Ik heb hiervoor eerst een testbase class gemaakt waarin ik alle nodige dependency injection zet en een tijdelijke database aanmaak voor het testen van de functies. 
+
+Ik ga proberen om in de volgende sprint alle overige taken af te ronden en mijn project te kunnen opleveren.
+Ook ga ik kijken of er nog bugs zijn en of ik nog wat should-haves erbij kan maken als er tijd over is.
