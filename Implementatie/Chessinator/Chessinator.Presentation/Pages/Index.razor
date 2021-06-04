@@ -1,18 +1,96 @@
 ﻿@page "/index"
-<AuthorizeView>
-    <Authorized>
-        <h1>Welcome to Chessinator, @context.User.Identity.Name!</h1>
-    </Authorized>
-    <NotAuthorized>
-        <h1>Welcome to Chessinator! </h1>
-        <p>You are not signed in yet, create an user to manage your tournaments!</p>
-    </NotAuthorized>
-</AuthorizeView>
 
+<style>
+    body, .content px-4 {
+        margin: 0 !important;
+        padding: 0 !important;
+    }
 
+    .bg-image-header {
+        background-image: url(/jani-kaasinen-chessboard.jpg);
+        background-repeat: no-repeat;
+        background-size: cover !important;
+    }
+
+    .bg-image-champion {
+        background-image: url(/pexels-vlada-karpovich-Chess.jpg);
+        background-repeat: no-repeat;
+        background-size: cover !important;
+    }
+    .main > div {
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .video-champion {
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        border-radius: 10px;
+        margin-left: 80px;
+    }
+
+    .footer{
+        background-color: lightgrey;
+    }
+</style>
+
+<body>
+
+    <!-- Header - set the background image for the header in the line below-->
+    <header class="py-5 bg-image-header">
+        <div class="text-center my-5">
+            <img class="img-fluid rounded-circle mb-4" src="/Chessinator logo.png" alt="..." />
+            <AuthorizeView>
+                <Authorized>
+                    <h1 class="text-white fs-3 fw-bolder">Welcome to Chessinator, @context.User.Identity.Name!</h1>
+                </Authorized>
+                <NotAuthorized>
+                    <h1 class="text-white fs-3 fw-bolder">Welcome to Chessinator! </h1>
+                    <p class="text-white-50 mb-0"> You are not signed in yet, create an user to manage your tournaments!</p>
+                </NotAuthorized>
+            </AuthorizeView>
+            <p class="text-white mb-0">Create your own tournament with the following tournament types!</p>
+        </div>
+    </header>
+    <!-- Content section-->
+    <section class="py-5">
+        <div class="container my-5">
+            <div class="row justify-content-center">
+                <div class="col-lg-6">
+                    <h2>Swiss-style</h2>
+                    <p class="mb-0">A Swiss-system tournament is a non-eliminating tournament format that features a fixed number of rounds of competition, but considerably fewer than for a round-robin tournament; thus each competitor (team or individual) does not play all the other competitors. Competitors meet one-on-one in each round and are paired using a set of rules designed to ensure that each competitor plays opponents with a similar running score, but does not play the same opponent more than once. The winner is the competitor with the highest aggregate points earned in all rounds. All competitors play in each round unless there is an odd number of them.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Image element - set the background image for the header in the line below-->
+    <div class="py-5 bg-image-champion">
+        <!-- Put anything you want here! The spacer below with inline CSS is just for demo purposes!-->
+        
+        <iframe class="video-champion" width="560" height="315" src="https://www.youtube.com/embed/DaJ05Xs8810" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        
+
+    </div>
+    <!-- Content section-->
+    <section class="py-5">
+        <div class="container my-5">
+            <div class="row justify-content-center">
+                <div class="col-lg-6">
+                    <h2>Championship Match</h2>
+                    <p class="mb-0">In a championship match, the loser against the champion has a second chance to win two times straight from the champion to win the tournament.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Footer-->
+    <footer class="py-4 footer">
+        <div class="container"><p class="m-0 text-center">Copyright &copy; Chessinator 2021</p></div>
+    </footer>
+</body>
+
+<!--
 <h2>Create your own tournament with the following tournament types!</h2>
 
-<br/>
+<br />
 <h3>Swiss-style</h3>
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/b8oV2dj4dgU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
@@ -21,6 +99,6 @@
 
 <h3>Championship Match</h3>
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/DaJ05Xs8810?start=179" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-<p>In a championship match, the loser against the champion has a second chance to win two times straight from the champion to win the tournament.</p>
+<p></p>
+-->

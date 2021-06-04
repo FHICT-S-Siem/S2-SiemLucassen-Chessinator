@@ -2,43 +2,62 @@
 @inject NavigationManager NavigationManager
 @inject Blazored.SessionStorage.ISessionStorageService sessionStorage
 @inject ITournamentService TournamentService
+
 <h1>
     Add Tournament
 </h1>
 
 <div class="row">
     <div class="col-md-4">
-        <form>
+        <EditForm Model="_tournament">
             <div class="form-group">
                 <label for="Name" class="control-label">Name</label>
-                <input for="Name" class="form-control" @bind-value="@tournament.Name" />
-
-                <!--TODO: Maak combobox ipv text velden. -->
+                <input for="Name" class="form-control" @bind-value="@_tournament.Name" />
+                <br/>
                 <label for="Type" class="control-label">Type</label>
-                <input for="Type" class="form-control" @bind-value="@tournament.Type" />
+                <br />
+                <InputSelect id="Type" class="form-select" @bind-Value="@_tournament.Type">
+                    <option>Select a tournament-type...</option>
+                    <option value="Swiss">Swiss</option>
+                    <option value="Survival">Survival</option>
+                    <option value="Championship Match">Championship Match</option>
+                </InputSelect>
+                <br />
                 <label for="Seeding" class="control-label">Seeding</label>
-                <input for="Seeding" class="form-control" @bind-value="@tournament.Seeding" />
+                <br />
+                <InputSelect id="Seeding" class="form-select" @bind-Value="@_tournament.Seeding">
+                    <option>Select a seeding...</option>
+                    <option value="Custom">Custom</option>
+                    <option value="Random">Random</option>
+                </InputSelect>
+                <br />
                 <label for="Time" class="control-label">Time</label>
-                <input for="Time" class="form-control" @bind-value="@tournament.Time" />
+                <br />
+                <InputSelect id="Time" class="form-select" @bind-Value="@_tournament.Time">
+                    <option>Select a time-standard...</option>
+                    <option value="Bullet">Bullet</option>
+                    <option value="Blitz">Blitz</option>
+                    <option value="Rapid">Rapid</option>
+                    <option value="Classic">Classic</option>
+                </InputSelect>
             </div>
             <div class="form-group">
                 <button type="button" class="btn btn-primary" @onclick="CreateTournamentAsync">Save</button>
                 <button type="button" class="btn btn-danger" @onclick="Cancel">Cancel</button>
-
             </div>
-        </form>
+        </EditForm>
     </div>
 </div>
 
 @code {
 
-    TournamentDto tournament = new TournamentDto();
+    TournamentDto _tournament = new TournamentDto();
 
     protected async Task CreateTournamentAsync()
     {
-        tournament.Id = Guid.NewGuid();
-        tournament.UserId = await sessionStorage.GetItemAsync<Guid>("userGuid");
-        await TournamentService.CreateTournamentAsync(tournament);
+        _tournament.Id = Guid.NewGuid();
+        _tournament.UserId = await sessionStorage.GetItemAsync<Guid>("userGuid");
+        await TournamentService.CreateTournamentAsync(_tournament);
         NavigationManager.NavigateTo("/fetchTournament");
     }
 
@@ -46,5 +65,5 @@
     {
         NavigationManager.NavigateTo("/fetchTournament");
     }
-    
+
 }

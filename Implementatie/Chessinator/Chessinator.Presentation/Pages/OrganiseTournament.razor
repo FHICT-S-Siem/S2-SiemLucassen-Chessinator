@@ -20,7 +20,12 @@
         margin-top: 5px
     }
 
-    a {
+    .form-select {
+        margin-top: 5px;
+        margin-right: 5px;
+    }
+
+    .btn {
         color: white !important;
     }
 
@@ -56,7 +61,7 @@
             </EditForm>
         </div>
         <div class="col-md-6">
-            @if (participants == null)
+            @if (_participants == null)
             {
                 <p><em>Loading...</em></p>
             }
@@ -76,7 +81,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @if (participants.Count == 0)
+                        @if (_participants.Count == 0)
                         {
                             <tr>
                                 <td colspan="3">
@@ -86,7 +91,7 @@
                         }
                         else
                         {
-                            foreach (ParticipantDto p in participants)
+                            foreach (ParticipantDto p in _participants)
                             {
                             <tr>
                                 <td>
@@ -116,22 +121,25 @@
                     @foreach (GroupDto group in MyForm.Groups)
                     {
                         <li style="list-style: none">
+                            <div class="row">
                             <input for="Name" placeholder="Group name" class="form-control" @bind-value="@group.Name"/>
-
-                            <InputSelect id="participants" class="form-group" @bind-Value="@group.Participant1">
-                                <option>Select Player...</option>
-                                @foreach (ParticipantDto participant in participants)
-                                {
-                                    <option title="Participant-1" value="@participant.Name">@participant.Name</option>
-                                }
-                            </InputSelect>
-                            <InputSelect id="participants" class="form-group" @bind-Value="@group.Participant2">
-                                <option>Select Player...</option>
-                                @foreach (ParticipantDto participant in participants)
-                                        {
-                                    <option title="Participant-2" value="@participant.Name">@participant.Name</option>
-                                        }
-                            </InputSelect>
+                            
+                                <InputSelect id="participants" class="form-select" style="width:auto;" @bind-Value="@group.Participant1">
+                                    <option>Select Player...</option>
+                                    @foreach (ParticipantDto participant in _participants)
+                                    {
+                                        <option title="Participant-1" value="@participant.Name">@participant.Name</option>
+                                    }
+                                </InputSelect>
+                                <InputSelect id="participants" class="form-select" style="width:auto;" @bind-Value="@group.Participant2">
+                                    <option>Select Player...</option>
+                                    @foreach (ParticipantDto participant in _participants)
+                                    {
+                                        <option title="Participant-2" value="@participant.Name">@participant.Name</option>
+                                    }
+                                </InputSelect>
+                            </div>
+                            
                         </li>
                     }
                 </ul>
@@ -181,7 +189,7 @@ else
                 </tr>
             </thead>
             <tbody>
-                @if (groups.Count == 0)
+                @if (_groups.Count == 0)
                 {
                     <tr>
                         <td colspan="3">
@@ -191,7 +199,7 @@ else
                 }
                 else
                 {
-                    foreach (GroupDto g in groups)
+                    foreach (GroupDto g in _groups)
                     {
                         <tr>
                             <td>@g.Name</td>
@@ -222,8 +230,8 @@ else
     }
 
     //[TypeConverter(typeof(List<ParticipantDto>))]
-    List<ParticipantDto> participants = new List<ParticipantDto>();
-    List<GroupDto> groups = new List<GroupDto>();
+    List<ParticipantDto> _participants = new List<ParticipantDto>();
+    List<GroupDto> _groups = new List<GroupDto>();
 
     OrganiseTournamentForm MyForm = new OrganiseTournamentForm();
 
@@ -232,8 +240,8 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        participants = await PlayerService.GetPlayersByTournamentIdAsync(TournamentId);
-        groups = await GroupService.GetGroupsByTournamentIdAsync(TournamentId);
+        _participants = await PlayerService.GetPlayersByTournamentIdAsync(TournamentId);
+        _groups = await GroupService.GetGroupsByTournamentIdAsync(TournamentId);
         AddRow();
         AddRow();
         AddGroup();
@@ -275,7 +283,7 @@ else
             player.Id = Guid.NewGuid();
             player.TournamentId = TournamentId;
             await PlayerService.CreatePlayerAsync(player);
-            participants.Add(player);
+            _participants.Add(player);
         }
         MyForm.Players.Clear();
         AddRow();
@@ -325,7 +333,7 @@ else
             group.Id = Guid.NewGuid();
             group.TournamentId = TournamentId;
             await GroupService.CreateGroupAsync(group);
-            groups.Add(group);
+            _groups.Add(group);
         }
         MyForm.Groups.Clear();
         AddGroup();
@@ -335,13 +343,13 @@ else
     protected async Task DeletePlayerAsync(Guid id)
     {
         await PlayerService.DeletePlayerAsync(id);
-        participants = await PlayerService.GetPlayersByTournamentIdAsync(TournamentId);
+        _participants = await PlayerService.GetPlayersByTournamentIdAsync(TournamentId);
     }
 
     protected async Task DeleteGroupAsync(Guid id)
     {
         await GroupService.DeleteGroupAsync(id);
-        groups = await GroupService.GetGroupsByTournamentIdAsync(TournamentId);
+        _groups = await GroupService.GetGroupsByTournamentIdAsync(TournamentId);
     }
 
     void GoBack()

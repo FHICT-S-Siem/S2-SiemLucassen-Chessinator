@@ -11,6 +11,10 @@
         margin-right: 10px;
     }
 
+    .container-fluid {
+        margin-top: 10px;
+    }
+
     .btn{
         color: white !important;
     }
@@ -75,77 +79,72 @@
 <div class="card">
     <div class="row">
         <div class="col-12">
-            <h4>@_selectedUser.Username , @_selectedUser.Email , @_selectedUser.Role , @_selectedUser.UserStatus</h4>
+            <div class="container-fluid">
+                <h4>@_selectedUser.Username , @_selectedUser.Email , @_selectedUser.Role , @_selectedUser.UserStatus</h4>
 
-            @if (_selectedUser.UserStatus == "Suspended")
-            {
-                <button type="button" class="btn btn-primary" @onclick="UnsuspendUser">Unsuspend</button>
-            }
+                @if (_selectedUser.UserStatus == "Suspended")
+                {
+                    <button type="button" class="btn btn-primary" @onclick="UnsuspendUser">Unsuspend</button>
+                }
 
-            else
-            {
-                <button type="button" class="btn btn-primary" @onclick="SuspendUser">Suspend</button>
-            }
+                else
+                {
+                    <button type="button" class="btn btn-primary" @onclick="SuspendUser">Suspend</button>
+                }
 
-            <button type="button" class="btn btn-danger" @onclick="BanUser">Ban</button>
-           
-                
-            
-
-            
-            
-
-            @if (_selectedUser.Tournaments == null)
-            {
-                <p><em>Choose a profile</em></p>
-            }
-            else
-            {
-                <table class="table table-bordered table-hover">
-                    <thead>
-                        <tr>
-                            <th class="sort-th">
-                                Name
-                                <span class="fa"></span>
-                            </th>
-                            <th class="sort-th">
-                                Created at
-                                <span class="fa"></span>
-                            </th>
-                            <th class="sort-th">
-                                Action
-                                <span class="fa"></span>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if (_selectedUser.Tournaments.Count == 0)
-                        {
+                <button type="button" class="btn btn-danger" @onclick="BanUser">Ban</button>
+                @if (_selectedUser.Tournaments == null)
+                {
+                    <p><em>Choose a profile</em></p>
+                }
+                else
+                {
+                    <table class="table table-borderless table-hover">
+                        <thead>
                             <tr>
-                                <td colspan="3">
-                                    No Records to display
-                                </td>
+                                <th class="sort-th">
+                                    Name
+                                    <span class="fa"></span>
+                                </th>
+                                <th class="sort-th">
+                                    Created at
+                                    <span class="fa"></span>
+                                </th>
+                                <th class="sort-th">
+                                    Action
+                                    <span class="fa"></span>
+                                </th>
                             </tr>
-                        }
-                        else
-                        {
-                            foreach (TournamentDto t in _selectedUser.Tournaments)
+                        </thead>
+                        <tbody>
+                            @if (_selectedUser.Tournaments.Count == 0)
                             {
                                 <tr>
-                                    <td>@t.Name</td>
-                                    <td>@t.DateTime</td>
-
-                                    <td>
-                                        <!--Delete action-->
-                                        <a class="btn btn-danger" @onclick="() => DeleteTournamentAsync(t.Id)">Delete</a>
-
+                                    <td colspan="3">
+                                        No Records to display
                                     </td>
                                 </tr>
                             }
-                        }
-                    </tbody>
-                </table>
-            }
+                            else
+                            {
+                                foreach (TournamentDto t in _selectedUser.Tournaments)
+                                {
+                                    <tr>
+                                        <td>@t.Name</td>
+                                        <td>@t.DateTime</td>
+
+                                        <td>
+                                            <!--Delete action-->
+                                            <a class="btn btn-danger" @onclick="() => DeleteTournamentAsync(t.Id)">Delete</a>
+
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                }
+            </div>
         </div>
     </div>
 </div>
