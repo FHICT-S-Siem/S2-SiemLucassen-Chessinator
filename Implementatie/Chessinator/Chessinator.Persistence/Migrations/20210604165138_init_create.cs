@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Chessinator.Persistence.Migrations
 {
-    public partial class Initial_Create : Migration
+    public partial class init_create : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

@@ -1,7 +1,10 @@
 ﻿@page "/addTournament"
+@using Microsoft.Data.SqlClient
+@using Chessinator.Domain.Exceptions
 @inject NavigationManager NavigationManager
 @inject Blazored.SessionStorage.ISessionStorageService sessionStorage
 @inject ITournamentService TournamentService
+@inject IJSRuntime JsRuntime;
 
 <h1>
     Add Tournament
@@ -13,11 +16,11 @@
             <div class="form-group">
                 <label for="Name" class="control-label">Name</label>
                 <input for="Name" class="form-control" @bind-value="@_tournament.Name" />
-                <br/>
+                <br />
                 <label for="Type" class="control-label">Type</label>
                 <br />
                 <InputSelect id="Type" class="form-select" @bind-Value="@_tournament.Type">
-                    <option>Select a tournament-type...</option>
+                    <option value="">Select a tournament-type...</option>
                     <option value="Swiss">Swiss</option>
                     <option value="Survival">Survival</option>
                     <option value="Championship Match">Championship Match</option>
@@ -26,7 +29,7 @@
                 <label for="Seeding" class="control-label">Seeding</label>
                 <br />
                 <InputSelect id="Seeding" class="form-select" @bind-Value="@_tournament.Seeding">
-                    <option>Select a seeding...</option>
+                    <option value="">Select a seeding...</option>
                     <option value="Custom">Custom</option>
                     <option value="Random">Random</option>
                 </InputSelect>
@@ -34,7 +37,7 @@
                 <label for="Time" class="control-label">Time</label>
                 <br />
                 <InputSelect id="Time" class="form-select" @bind-Value="@_tournament.Time">
-                    <option>Select a time-standard...</option>
+                    <option value="">Select a time-standard...</option>
                     <option value="Bullet">Bullet</option>
                     <option value="Blitz">Blitz</option>
                     <option value="Rapid">Rapid</option>
@@ -42,7 +45,7 @@
                 </InputSelect>
             </div>
             <div class="form-group">
-                <button type="button" class="btn btn-primary" @onclick="CreateTournamentAsync">Save</button>
+                <button type="button" class="btn btn-primary" @onclick="CreateTournamentAsync">Create tournament</button>
                 <button type="button" class="btn btn-danger" @onclick="Cancel">Cancel</button>
             </div>
         </EditForm>
@@ -55,10 +58,24 @@
 
     protected async Task CreateTournamentAsync()
     {
-        _tournament.Id = Guid.NewGuid();
-        _tournament.UserId = await sessionStorage.GetItemAsync<Guid>("userGuid");
-        await TournamentService.CreateTournamentAsync(_tournament);
-        NavigationManager.NavigateTo("/fetchTournament");
+        if (string.IsNullOrEmpty(_tournament.Name) || string.IsNullOrEmpty(_tournament.Type) || string.IsNullOrEmpty(_tournament.Seeding) || string.IsNullOrEmpty(_tournament.Time))
+        {
+            string alert = await JsRuntime.InvokeAsync<string>("alert", "Fill in all fields before editing a tournament");
+            return;
+        }
+
+        try
+        {
+            _tournament.Id = Guid.NewGuid();
+            _tournament.UserId = await sessionStorage.GetItemAsync<Guid>("userGuid");
+            await TournamentService.CreateTournamentAsync(_tournament);
+            NavigationManager.NavigateTo("/fetchTournament");
+        }
+        catch (Exception e)
+        {
+            var alert = await JsRuntime.InvokeAsync<string>("alert", e.Message + " " + _tournament.Name);
+        }
+
     }
 
     void Cancel()

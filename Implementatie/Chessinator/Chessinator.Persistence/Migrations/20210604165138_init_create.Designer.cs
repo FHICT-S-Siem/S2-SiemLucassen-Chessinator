@@ -10,15 +10,15 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Chessinator.Persistence.Migrations
 {
     [DbContext(typeof(ChessinatorDbContext))]
-    [Migration("20210511213329_Initial_Create")]
-    partial class Initial_Create
+    [Migration("20210604165138_init_create")]
+    partial class init_create
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.5")
+                .HasAnnotation("ProductVersion", "5.0.6")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("Chessinator.Domain.Entities.Group", b =>

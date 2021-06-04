@@ -20,25 +20,24 @@
         <br />
     </div>
     <div class="col-12 row">
-        <input class="form-control col-12" @bind="user.Username" placeholder="username" />
+        <input class="form-control col-12" @bind="user.Username" placeholder="username" required/>
     </div>
     <br />
     <div class="col-12 row">
-        <input type="password" class="form-control col-12" @bind="user.Password" placeholder="password" />
+        <input type="password" class="form-control col-12" @bind="user.Password" placeholder="password" required/>
     </div>
     <br />
     <div class="col-12 row">
-        <input class="form-control col-12" @bind="user.Email" placeholder="email" />
+        <input type="email" class="form-control col-12" @bind="user.Email" placeholder="email" required/>
     </div>
     <br />
     <div class="col-12 row">
-        <input class="form-control col-12" @bind="user.Country" placeholder="country" />
+        <input class="form-control col-12" @bind="user.Country" placeholder="country" required/>
     </div>
     <br />
     <div class="col-12 row">
-        <span class="col-12"></span>
         <input type="submit" class="form-control col-6 btn btn-primary" value="Sign up" />
-        <button type="button" class="btn btn-primary" @onclick="BackToLogin">Cancel</button>
+        <button type="button" class="btn col-6 btn-primary" @onclick="BackToLogin">Cancel</button>
     </div>
     <br />
     <div class="col-12 row" style="text-align:left; font-weight:bold">
@@ -61,8 +60,6 @@
     {
         NavigationManager.NavigateTo("/");
     }
-
-
 }
 
 

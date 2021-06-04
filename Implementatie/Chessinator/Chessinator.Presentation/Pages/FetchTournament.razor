@@ -11,7 +11,7 @@
 </style>
 
 <div>
-    <a class="btn btn-primary" href='/addTournament'>Add</a>
+    <a class="btn btn-primary" href='/addTournament'>Add tournament</a>
 </div>
 <br />
 
@@ -41,7 +41,7 @@ else
                     <span class="fa"></span>
                 </th>
                 <th class="sort-th">
-                    Date
+                    Created at
                     <span class="fa"></span>
                 </th>
                 <th>Action</th>
@@ -69,7 +69,7 @@ else
 
                         <td>
                             <a class="btn btn-primary" href='/editTournament/@t.Id'>Edit</a>  |
-                            <a class="btn btn-danger" @onclick="() => DeleteTournamentAsync(t.Id)">Delete</a>
+                            <a class="btn btn-danger" @onclick="() => DeleteTournamentAsync(t.Id)">Delete</a>  |
                             <a class="btn btn-success" @onclick="() => NavigateToOrganiseTournament(t)">Organise Tournament</a>
                         </td>
                     </tr>
@@ -82,8 +82,6 @@ else
 
 
 @code {
-
-
     List<TournamentDto> _tournaments;
 
     private void NavigateToOrganiseTournament(TournamentDto tournamentDto)

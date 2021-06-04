@@ -29,6 +29,10 @@ app {
     flex: 1;
 }
 
+.top-row {
+    z-index: 5 !important;
+}
+
 .main .top-row {
     background-color: rgba(247, 247, 247, 255) !important;
     border-bottom: 1px solid #d6d5d5;
