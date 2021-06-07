@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Threading.Tasks;
+using Chessinator.Domain.Exceptions;
 
 namespace Chessinator.Tests
 {
@@ -135,6 +136,13 @@ namespace Chessinator.Tests
 
             //Assert
             Assert.IsNull(await _tournamentService.GetTournamentByIdAsync(dto.Id));
+        }
+
+        [TestMethod]
+        public async Task CreateTournament_GivesChessinatorException_ExceptionMessageShouldEqualToExpectedMessage()
+        {
+            ChessinatorException ex = await Assert.ThrowsExceptionAsync<ChessinatorException>(() => _tournamentService.CreateTournamentAsync(null));
+            Assert.AreEqual("tournamentDto is null", ex.Message);
         }
     }
 }

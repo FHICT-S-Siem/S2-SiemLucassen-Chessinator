@@ -50,7 +50,18 @@ namespace Chessinator.Application.Services
         public async Task<LoginResponseDto> LoginAsync(LoginDto loginDto)
         {
             // Does a user exist with the given credentials?
-            User user = await _userRepository.GetUserByUsernameAsync(loginDto.Username);
+            User user;
+            try
+            {
+                user = await _userRepository.GetUserByUsernameAsync(loginDto.Username);
+
+            }
+            catch (Exception)
+            {
+                throw new ChessinatorException("Failed to get Username");
+            }
+
+
             if (user == null)
             {
                 return new LoginResponseDto()

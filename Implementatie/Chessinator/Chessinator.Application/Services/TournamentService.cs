@@ -30,18 +30,27 @@ namespace Chessinator.Application.Services
             // Map from DTO,
             // problem here is that the user that is mapped already exists in the database, so
             // we have to get the tracked user from the database and set the tournament user to be the tracked user.
+            if (tournamentDto == null)
+                throw new ChessinatorException("tournamentDto is null");
+
             Tournament tournament = _mapper.Map<Tournament>(tournamentDto);
 
             User trackedUser = await _userRepository.GetUserByIdAsync(tournamentDto.UserId);
+            if (trackedUser == null)
+                throw new ChessinatorException("Failed to get user by id.");
+
             tournament.User = trackedUser;
             trackedUser.Tournaments.Add(tournament);
 
-            Tournament createdTournament = await _tournamentRepository.CreateTournamentAsync(tournament);
-            
-            if (createdTournament == null)
+            try
+            {
+                Tournament createdTournament = await _tournamentRepository.CreateTournamentAsync(tournament);
+                return _mapper.Map<TournamentDto>(createdTournament);
+            }
+            catch (Exception)
+            {
                 throw new ChessinatorException("Failed to create tournament");
-
-            return _mapper.Map<TournamentDto>(createdTournament);
+            }
         }
 
         public async Task<List<TournamentDto>> GetTournamentsByUserIdAsync(Guid userGuid)

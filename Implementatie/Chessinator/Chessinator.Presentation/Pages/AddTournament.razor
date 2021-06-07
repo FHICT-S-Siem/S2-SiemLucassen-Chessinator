@@ -71,9 +71,9 @@
             await TournamentService.CreateTournamentAsync(_tournament);
             NavigationManager.NavigateTo("/fetchTournament");
         }
-        catch (Exception e)
+        catch (ChessinatorException ex)
         {
-            var alert = await JsRuntime.InvokeAsync<string>("alert", e.Message + " " + _tournament.Name);
+            var alert = await JsRuntime.InvokeAsync<string>("alert", ex.Message + " " + _tournament.Name);
         }
 
     }

@@ -2,6 +2,7 @@ using Blazored.SessionStorage;
 using Chessinator.Application.Cryptography;
 using Chessinator.Application.Interfaces;
 using Chessinator.Application.Services;
+using Chessinator.Domain.Exceptions;
 using Chessinator.Persistence.Contexts;
 using Chessinator.Persistence.Repositories;
 using Chessinator.Presentation.Authorization;
@@ -9,6 +10,7 @@ using Chessinator.Presentation.States;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -62,7 +64,7 @@ namespace Chessinator.Presentation
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ChessinatorDbContext chessinatorDbContext)
         {
             if (env.IsDevelopment())
             {
@@ -79,6 +81,10 @@ namespace Chessinator.Presentation
             app.UseStaticFiles();
 
             app.UseRouting();
+            
+            //Check if database connection exists.
+            if (!chessinatorDbContext.Database.CanConnect())
+                throw new ChessinatorException("Cannot connect to database.");
 
             // Authentication
             app.UseAuthentication();
@@ -90,5 +96,7 @@ namespace Chessinator.Presentation
                 endpoints.MapFallbackToPage("/_Host");
             });
         }
+
+        
     }
 }
