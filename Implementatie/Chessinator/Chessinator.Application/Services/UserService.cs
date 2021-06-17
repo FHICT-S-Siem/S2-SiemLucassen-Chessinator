@@ -51,22 +51,14 @@ namespace Chessinator.Application.Services
         {
             // Does a user exist with the given credentials?
             User user;
-            try
-            {
-                user = await _userRepository.GetUserByUsernameAsync(loginDto.Username);
-
-            }
-            catch (Exception)
-            {
-                throw new ChessinatorException("Failed to get Username");
-            }
-
-
+            user = await _userRepository.GetUserByUsernameAsync(loginDto.Username);
+            
             if (user == null)
             {
                 return new LoginResponseDto()
                 {
-                    Success = false
+                    Success = false,
+                    Message = "Invalid username or password"
                 };
             }
 

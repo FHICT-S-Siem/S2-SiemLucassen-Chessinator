@@ -10,22 +10,25 @@ namespace CircusTrein.Test
         [TestMethod]
         public void TryAddAnimal_AddsAnimalToContainer_ShouldHaveAnimalInList()
         {
-            //Arrange
-
+            //Arrange - The animals get initialized with their values
             Animal a = new Animal(AnimalSize.Large, AnimalType.Herbivore);
-            Animal b = new Animal(AnimalSize.Medium, AnimalType.Carnivore);
+            Animal b = new Animal(AnimalSize.Medium, AnimalType.Herbivore);
 
+            // Adds animal a to container.
             Container container = new Container(a);
+
             //Act
+            // Tries to add animal b to container.
             container.TryAddAnimal(b);
 
             //Assert
+            //Check if both animals are in container.
             Assert.IsTrue(container.Animals.Contains(a));
             Assert.IsTrue(container.Animals.Contains(b));
         }
 
         [TestMethod]
-        public void AddsAnimalToContainer_ChecksOverMaximumCapacity_False()
+        public void AddsAnimalToContainer_ChecksOverMaximumCapacity_ShouldResultFalse()
         {
             //Arrange - The animals get initialized with their values
             Animal a = new Animal(AnimalSize.Large, AnimalType.Herbivore);
@@ -47,7 +50,7 @@ namespace CircusTrein.Test
         }
 
         [TestMethod]
-        public void AddsAnimalToContainer_ChecksCarnivoreEatingBehaviour_False()
+        public void AddsAnimalToContainer_ChecksCarnivoreEatingBehaviour_ShouldResultFalse()
         {
             //Arrange - The animals get initialized with their values
             Animal a = new Animal(AnimalSize.Large, AnimalType.Herbivore);

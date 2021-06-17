@@ -10,7 +10,6 @@ using Chessinator.Presentation.States;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -84,7 +83,7 @@ namespace Chessinator.Presentation
             
             //Check if database connection exists.
             if (!chessinatorDbContext.Database.CanConnect())
-                throw new ChessinatorException("Cannot connect to database.");
+                throw new NoConnectionException("Cannot connect to database.");
 
             // Authentication
             app.UseAuthentication();

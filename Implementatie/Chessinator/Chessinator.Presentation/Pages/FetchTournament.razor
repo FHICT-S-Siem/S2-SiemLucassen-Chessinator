@@ -3,9 +3,11 @@
 @inject Blazored.SessionStorage.ISessionStorageService SessionStorage
 @inject ITournamentService TournamentService
 @inject States.TournamentState TournamentState
+@inject IJSRuntime JsRuntime;
+
 
 <style>
-   .btn {
+    .btn {
         color: white !important;
     }
 </style>
@@ -93,12 +95,29 @@ else
     protected override async Task OnInitializedAsync()
     {
         Guid userId = await SessionStorage.GetItemAsync<Guid>("userGuid");
-        _tournaments = await TournamentService.GetTournamentsByUserIdAsync(userId);
+        try
+        {
+            _tournaments = await TournamentService.GetTournamentsByUserIdAsync(userId);
+        }
+        catch (Exception e)
+        {
+            var alert = await JsRuntime.InvokeAsync<string>("alert", e.Message);
+        }
     }
 
     protected async Task DeleteTournamentAsync(Guid id)
     {
-        await TournamentService.DeleteTournamentAsync(id);
+        try
+        {
+            await TournamentService.DeleteTournamentAsync(id);
+
+        }
+        catch (Exception e)
+        {
+            var alert = await JsRuntime.InvokeAsync<string>("alert", e.Message);
+        }
+
+
         Guid userId = await SessionStorage.GetItemAsync<Guid>("userGuid");
         _tournaments = await TournamentService.GetTournamentsByUserIdAsync(userId);
     }

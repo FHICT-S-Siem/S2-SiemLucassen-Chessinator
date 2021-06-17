@@ -1,6 +1,7 @@
 ﻿@page "/"
 @using System.Security.Claims
 @using Chessinator.Application.Dtos.Responses
+@using Chessinator.Domain.Exceptions
 @using Chessinator.Presentation.Authorization
 @using Microsoft.AspNetCore.Http
 
@@ -9,14 +10,12 @@
 @inject NavigationManager NavigationManager
 @inject IUserService userService
 @inject Blazored.SessionStorage.ISessionStorageService sessionStorage
-
 <EditForm Model="@user" OnValidSubmit="@ValidateUser">
     <div>
         <br /><br /><br /><br /><br />
     </div>
     <div>
         <h3 style="font-weight:bold; color:purple">Log in on Chessinator!</h3>
-        <h3>@Message</h3>
     </div>
     <div>
         <br />
@@ -70,9 +69,6 @@
         //assume that user is valid
 
         LoginResponseDto response = await userService.LoginAsync(user);
-
-        
-
         if (response.Success)
         {
             //response.Data = UserDto
@@ -81,19 +77,15 @@
             await sessionStorage.SetItemAsync("userGuid", response.Data.Id);
             NavigationManager.NavigateTo("/index");
         }
-
         else
         {
-            LoginMesssage = "Invalid username or password";
-            if (response.Message != String.Empty)
+            if (!string.IsNullOrEmpty(response.Message))
             {
-                Message = response.Message;
+                LoginMesssage = response.Message;
             }
         }
-
         return await Task.FromResult(true);
     }
-
 }
 
 
